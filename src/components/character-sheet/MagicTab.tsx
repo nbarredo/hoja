@@ -11,14 +11,17 @@ export function MagicTab({ characterData }: MagicTabProps) {
   const { state, actions } = useGameState()
 
   const handleSpellSlotClick = (level: string) => {
+    console.log('Spell slot clicked:', level, 'Current state:', state.spellSlots[level])
     actions.useSpellSlot(level)
   }
 
   const handleSpellSlotRestore = (level: string) => {
+    console.log('Spell slot restore:', level, 'Current state:', state.spellSlots[level])
     actions.restoreSpellSlot(level)
   }
 
   const handleAbilityUse = (abilityName: string) => {
+    console.log('Ability used:', abilityName, 'Current state:', state.longRestAbilities[abilityName])
     actions.useAbility(abilityName)
   }
 

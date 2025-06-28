@@ -114,6 +114,7 @@ export class GameStateManager {
   private static instance: GameStateManager;
   private state: GameState;
   private listeners: ((state: GameState) => void)[] = [];
+  private saveTimeout: NodeJS.Timeout | null = null;
 
   private constructor() {
     this.state = this.loadState();
@@ -144,19 +145,29 @@ export class GameStateManager {
   private saveState(): void {
     try {
       this.state.lastUpdated = Date.now();
-      // Save to localStorage
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+      
+      // Debounce localStorage writes to improve performance
+      if (this.saveTimeout) {
+        clearTimeout(this.saveTimeout);
+      }
+      
+      this.saveTimeout = setTimeout(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+        this.saveTimeout = null;
+      }, 100); // 100ms debounce
     } catch (error) {
       console.error('Error saving game state:', error);
     }
   }
 
   private notifyListeners(): void {
+    // Notify listeners immediately for better UI responsiveness
     this.listeners.forEach(listener => listener(this.state));
   }
 
   getState(): GameState {
-    return { ...this.state };
+    // Return a deep clone to ensure React detects changes
+    return JSON.parse(JSON.stringify(this.state));
   }
 
   subscribe(listener: (state: GameState) => void): () => void {
