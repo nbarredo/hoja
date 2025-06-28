@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { gameStateManager, type GameState } from '../lib/gameState-db'
+import { gameStateManager, type GameState } from './gameState-db'
 
 export function useGameState() {
   const [characterData, setCharacterData] = useState<any>(null)
-  const [state, setState] = useState<GameState | null>(null)
+  const [gameState, setGameState] = useState<GameState | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -12,12 +12,12 @@ export function useGameState() {
     async function loadData() {
       try {
         setIsLoading(true)
-        const [charData, gameState] = await Promise.all([
+        const [charData, state] = await Promise.all([
           gameStateManager.getCharacterData(),
           gameStateManager.getState()
         ])
         setCharacterData(charData)
-        setState(gameState)
+        setGameState(state)
         setError(null)
       } catch (err) {
         console.error('Failed to load game data:', err)
@@ -35,7 +35,7 @@ export function useGameState() {
     const unsubscribe = gameStateManager.subscribe(async () => {
       try {
         const newState = await gameStateManager.getState()
-        setState(newState)
+        setGameState(newState)
       } catch (err) {
         console.error('Failed to update state:', err)
       }
@@ -53,41 +53,11 @@ export function useGameState() {
       }
     },
 
-    damageHP: async (amount: number) => {
-      if (state?.hitPoints) {
-        const newHP = Math.max(0, state.hitPoints.current - amount)
-        await gameStateManager.updateHP(newHP)
-      }
-    },
-
-    healHP: async (amount: number) => {
-      if (state?.hitPoints) {
-        const newHP = Math.min(state.hitPoints.maximum, state.hitPoints.current + amount)
-        await gameStateManager.updateHP(newHP)
-      }
-    },
-
     updateShield: async (shieldType: string, current: number) => {
       try {
         await gameStateManager.updateShield(shieldType, current)
       } catch (err) {
         console.error('Failed to update shield:', err)
-      }
-    },
-
-    damageShield: async (shieldType: string, amount: number) => {
-      if (state?.shields?.[shieldType]) {
-        const shield = state.shields[shieldType]
-        const newCurrent = Math.max(0, shield.current - amount)
-        await gameStateManager.updateShield(shieldType, newCurrent)
-      }
-    },
-
-    healShield: async (shieldType: string, amount: number) => {
-      if (state?.shields?.[shieldType]) {
-        const shield = state.shields[shieldType]
-        const newCurrent = Math.min(shield.points, shield.current + amount)
-        await gameStateManager.updateShield(shieldType, newCurrent)
       }
     },
 
@@ -104,14 +74,6 @@ export function useGameState() {
         await gameStateManager.restoreSpellSlot(level)
       } catch (err) {
         console.error('Failed to restore spell slot:', err)
-      }
-    },
-
-    useAbility: async (name: string) => {
-      try {
-        await gameStateManager.useLongRestAbility(name)
-      } catch (err) {
-        console.error('Failed to use ability:', err)
       }
     },
 
@@ -155,50 +117,30 @@ export function useGameState() {
       }
     },
 
-    reset: async () => {
+    exportData: async () => {
       try {
-        await gameStateManager.longRest() // Reset is essentially a long rest
-      } catch (err) {
-        console.error('Failed to reset:', err)
-      }
-    },
-
-    exportToFile: async () => {
-      try {
-        const data = await gameStateManager.exportData()
-        const blob = new Blob([data], { type: 'application/json' })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'velsirion-character-data.json'
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
+        return await gameStateManager.exportData()
       } catch (err) {
         console.error('Failed to export data:', err)
         throw err
       }
     },
 
-    importFromFile: async (file: File) => {
+    importData: async (data: any) => {
       try {
-        const text = await file.text()
-        const data = JSON.parse(text)
         await gameStateManager.importData(data)
-        return true
       } catch (err) {
         console.error('Failed to import data:', err)
-        return false
+        throw err
       }
     }
   }
 
   return {
     characterData,
-    state,
+    gameState,
     isLoading,
     error,
-    actions
+    ...actions
   }
 }

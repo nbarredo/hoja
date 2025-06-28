@@ -9,8 +9,20 @@ interface DefensesTabProps {
   characterData: CharacterData
 }
 
-export function DefensesTab({ characterData }: DefensesTabProps) {
-  const { state } = useGameState()
+export function DefensesTab({ characterData: propCharacterData }: DefensesTabProps) {
+  const { characterData, state, isLoading, error } = useGameState()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  if (!state || !characterData) {
+    return <div>No game state available</div>
+  }
 
   return (
     <div className="space-y-6">

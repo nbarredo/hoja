@@ -7,8 +7,20 @@ interface MagicTabProps {
   characterData: CharacterData
 }
 
-export function MagicTab({ characterData }: MagicTabProps) {
-  const { state, actions } = useGameState()
+export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
+  const { characterData, state, actions, isLoading, error } = useGameState()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  if (!state || !characterData) {
+    return <div>No game state available</div>
+  }
 
   const handleSpellSlotClick = (level: string) => {
     console.log('Spell slot clicked:', level, 'Current state:', state.spellSlots[level])

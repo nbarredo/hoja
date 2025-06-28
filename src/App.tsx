@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getCharacterData } from '@/lib/database'
 import { useGameState } from '@/hooks/useGameState'
 import { BasicStatsTab } from '@/components/character-sheet/BasicStatsTab'
 import { SkillsTabComponent } from '@/components/character-sheet/Skills'
@@ -8,24 +6,20 @@ import { MagicTab } from '@/components/character-sheet/MagicTab'
 import { MagicItemsTab } from '@/components/character-sheet/MagicItemsTab'
 import { DragonPowersTab } from '@/components/character-sheet/DragonPowersTab'
 import { DefensesTab } from '@/components/character-sheet/DefensesTab'
-import type { CharacterData } from '@/components/character-sheet/types'
 
 function App() {
-  const [characterData, setCharacterData] = useState<CharacterData | null>(null)
-  const { actions } = useGameState()
+  const { characterData, actions, isLoading, error } = useGameState()
 
-  useEffect(() => {
-    try {
-      const data = getCharacterData()
-      console.log('Loaded character data:', data)
-      setCharacterData(data)
-    } catch (error) {
-      console.error('Error loading character data:', error)
-    }
-  }, [])
+  const handleLongRest = async () => {
+    await actions.longRest()
+  }
 
-  const handleLongRest = () => {
-    actions.longRest()
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading character data...</div>
+  }
+
+  if (error) {
+    return <div className="flex items-center justify-center min-h-screen">Error: {error}</div>
   }
 
   if (!characterData) {

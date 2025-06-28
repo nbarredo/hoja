@@ -166,8 +166,15 @@ export class GameStateManager {
   }
 
   getState(): GameState {
-    // Return a deep clone to ensure React detects changes
-    return JSON.parse(JSON.stringify(this.state));
+    // Return a shallow clone with deep clone of nested objects
+    return {
+      ...this.state,
+      hitPoints: { ...this.state.hitPoints },
+      shields: { ...this.state.shields },
+      spellSlots: { ...this.state.spellSlots },
+      longRestAbilities: { ...this.state.longRestAbilities },
+      legendaryResistances: { ...this.state.legendaryResistances }
+    };
   }
 
   subscribe(listener: (state: GameState) => void): () => void {
@@ -218,7 +225,10 @@ export class GameStateManager {
   useSpellSlot(level: string): void {
     const slot = this.state.spellSlots[level];
     if (slot && slot.used < slot.total) {
-      slot.used++;
+      this.state.spellSlots = {
+        ...this.state.spellSlots,
+        [level]: { ...slot, used: slot.used + 1 }
+      };
       this.saveState();
       this.notifyListeners();
     }
@@ -227,7 +237,10 @@ export class GameStateManager {
   restoreSpellSlot(level: string): void {
     const slot = this.state.spellSlots[level];
     if (slot && slot.used > 0) {
-      slot.used--;
+      this.state.spellSlots = {
+        ...this.state.spellSlots,
+        [level]: { ...slot, used: slot.used - 1 }
+      };
       this.saveState();
       this.notifyListeners();
     }

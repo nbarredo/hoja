@@ -8,11 +8,23 @@ interface BasicStatsTabProps {
   characterData: CharacterData
 }
 
-export function BasicStatsTab({ characterData }: BasicStatsTabProps) {
-  const { state, actions } = useGameState()
+export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTabProps) {
+  const { characterData, state, actions, isLoading, error } = useGameState()
   const [hpAdjustment, setHpAdjustment] = useState('')
   const [shieldAdjustments, setShieldAdjustments] = useState<{[key: string]: string}>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  if (!state || !characterData) {
+    return <div>No game state available</div>
+  }
 
   const handleHPChange = (amount: number, isDamage: boolean) => {
     if (isDamage) {
