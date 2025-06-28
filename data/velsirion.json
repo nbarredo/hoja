@@ -646,6 +646,49 @@
       }
     ]
   },
+  "gameState": {
+    "hitPoints": {
+      "current": 3567
+    },
+    "shields": {
+      "psychicShield": {
+        "current": 2000
+      },
+      "towerShield": {
+        "current": 1000
+      },
+      "magicShield": {
+        "current": 500
+      }
+    },
+    "spellSlots": {
+      "1st": { "used": 0 },
+      "2nd": { "used": 0 },
+      "3rd": { "used": 0 },
+      "4th": { "used": 0 },
+      "5th": { "used": 0 },
+      "6th": { "used": 0 },
+      "7th": { "used": 0 },
+      "8th": { "used": 0 },
+      "9th": { "used": 0 },
+      "10th": { "used": 0 },
+      "11th": { "used": 0 }
+    },
+    "longRestAbilities": {
+      "Perfect Strike": { "used": 0 },
+      "Chronal Shift": { "used": 0 },
+      "Momentary Stasis": { "used": 0 },
+      "Convergent Future": { "used": 0 },
+      "Legendary Resistance": { "used": 0 },
+      "Ataque Entrópico": { "used": 0 },
+      "Fuego Puro": { "used": 0 },
+      "Escudo de la Última Esperanza": { "used": 0 }
+    },
+    "legendaryResistances": {
+      "used": 0
+    },
+    "lastUpdated": 1735372800000
+  },
   "backstory": {
     "origin": "Egg fell from sky on Isle of Aris",
     "education": "Accepted as apprentice in Order of Fael thanks to Edict of Aris",

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useGameState } from '@/hooks/useGameState'
 import { velsirionData } from '@/lib/database'
@@ -12,6 +12,7 @@ export function BasicStatsTab({ characterData }: BasicStatsTabProps) {
   const { state, actions } = useGameState()
   const [hpAdjustment, setHpAdjustment] = useState('')
   const [shieldAdjustments, setShieldAdjustments] = useState<{[key: string]: string}>({})
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleHPChange = (amount: number, isDamage: boolean) => {
     if (isDamage) {
@@ -29,6 +30,35 @@ export function BasicStatsTab({ characterData }: BasicStatsTabProps) {
       actions.healShield(shieldType, amount)
     }
     setShieldAdjustments(prev => ({ ...prev, [shieldType]: '' }))
+  }
+
+  const handleExportData = async () => {
+    try {
+      await actions.exportToFile()
+      console.log('Game state exported successfully!')
+    } catch (error) {
+      console.error('Failed to export game state:', error)
+    }
+  }
+
+  const handleImportData = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      try {
+        const success = await actions.importFromFile(file)
+        if (success) {
+          console.log('Game state imported successfully!')
+        } else {
+          console.error('Failed to import game state')
+        }
+      } catch (error) {
+        console.error('Error importing game state:', error)
+      }
+    }
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
   }
 
   return (
@@ -281,6 +311,49 @@ export function BasicStatsTab({ characterData }: BasicStatsTabProps) {
                   <span className="text-white">{characterData.additionalInfo?.languages}</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Data Management */}
+      <Card className="bg-gray-900 border-gray-700">
+        <CardHeader className="border-b border-gray-700">
+          <CardTitle className="text-xl font-bold text-white">Data Management</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-lg">Export Game State</h4>
+              <p className="text-sm text-gray-300 mb-3">
+                Download the current game state as an updated velsirion.json file
+              </p>
+              <button
+                onClick={handleExportData}
+                className="w-full px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+              >
+                📥 Export to JSON File
+              </button>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-lg">Import Game State</h4>
+              <p className="text-sm text-gray-300 mb-3">
+                Load game state from a velsirion.json file
+              </p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleImportData}
+                className="w-full px-3 py-2 text-sm bg-gray-700 text-white border border-gray-600 rounded-md file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-gray-600 file:text-white file:text-sm hover:file:bg-gray-500"
+              />
+            </div>
+          </div>
+          <div className="mt-4 p-3 border border-gray-700 rounded bg-gray-800">
+            <div className="text-xs text-gray-400 mb-1">PERSISTENCE INFO</div>
+            <div className="text-sm text-gray-300">
+              Game state is automatically saved to localStorage and exported to JSON on changes. 
+              Use export/import to transfer data between sessions or backup your progress.
             </div>
           </div>
         </CardContent>

@@ -23,6 +23,8 @@ export function useGameState() {
       restoreLegendaryResistance: () => gameStateManager.restoreLegendaryResistance(),
       longRest: () => gameStateManager.longRest(),
       reset: () => gameStateManager.reset(),
+      exportToFile: () => gameStateManager.exportToFile(),
+      importFromFile: (file: File) => gameStateManager.importFromFile(file),
     }
   };
 }

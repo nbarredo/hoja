@@ -1,4 +1,5 @@
 import { velsirionData } from './database';
+import { filePersistenceManager } from './filePersistence';
 
 export interface GameState {
   hitPoints: {
@@ -44,45 +45,68 @@ const calculateMaxHP = () => {
   return baseHP + corazonDeJinLong + collarDeRyu + hambreDePoder;
 };
 
-const getInitialState = (): GameState => ({
-  hitPoints: {
-    maximum: calculateMaxHP(),
-    current: calculateMaxHP(),
-  },
-  shields: {
-    psychicShield: { points: 2000, current: 2000, source: "Escamas de Eccen", canBeHealed: false },
-    towerShield: { points: 1000, current: 1000, source: "Resistencia de la Torre Blanca", canBeHealed: false, special: "Indestructible" },
-    magicShield: { points: 500, current: 500, source: "High Magic Armor", canBeHealed: false },
-  },
-  spellSlots: {
-    "1st": { total: 4, used: 0 },
-    "2nd": { total: 3, used: 0 },
-    "3rd": { total: 3, used: 0 },
-    "4th": { total: 3, used: 0 },
-    "5th": { total: 3, used: 0 },
-    "6th": { total: 3, used: 0 },
-    "7th": { total: 2, used: 0 },
-    "8th": { total: 2, used: 0 },
-    "9th": { total: 2, used: 0 },
-    "10th": { total: 1, used: 0 },
-    "11th": { total: 1, used: 0 },
-  },
-  longRestAbilities: {
-    "Perfect Strike": { total: 3, used: 0 },
-    "Chronal Shift": { total: 2, used: 0 },
-    "Momentary Stasis": { total: 1, used: 0 },
-    "Convergent Future": { total: 1, used: 0 },
-    "Legendary Resistance": { total: 4, used: 0 },
-    "Ataque Entrópico": { total: 3, used: 0 },
-    "Fuego Puro": { total: 3, used: 0 },
-    "Escudo de la Última Esperanza": { total: 3, used: 0 },
-  },
-  legendaryResistances: {
-    total: 14,
-    used: 0,
-  },
-  lastUpdated: Date.now(),
-});
+const getInitialState = (): GameState => {
+  // Check if gameState exists in the velsirionData JSON
+  const jsonGameState = (velsirionData as any).gameState;
+  
+  const initialState = {
+    hitPoints: {
+      maximum: calculateMaxHP(),
+      current: jsonGameState?.hitPoints?.current || calculateMaxHP(),
+    },
+    shields: {
+      psychicShield: { 
+        points: 2000, 
+        current: jsonGameState?.shields?.psychicShield?.current || 2000, 
+        source: "Escamas de Eccen", 
+        canBeHealed: false 
+      },
+      towerShield: { 
+        points: 1000, 
+        current: jsonGameState?.shields?.towerShield?.current || 1000, 
+        source: "Resistencia de la Torre Blanca", 
+        canBeHealed: false, 
+        special: "Indestructible" 
+      },
+      magicShield: { 
+        points: 500, 
+        current: jsonGameState?.shields?.magicShield?.current || 500, 
+        source: "High Magic Armor", 
+        canBeHealed: false 
+      },
+    },
+    spellSlots: {
+      "1st": { total: 4, used: jsonGameState?.spellSlots?.["1st"]?.used || 0 },
+      "2nd": { total: 3, used: jsonGameState?.spellSlots?.["2nd"]?.used || 0 },
+      "3rd": { total: 3, used: jsonGameState?.spellSlots?.["3rd"]?.used || 0 },
+      "4th": { total: 3, used: jsonGameState?.spellSlots?.["4th"]?.used || 0 },
+      "5th": { total: 3, used: jsonGameState?.spellSlots?.["5th"]?.used || 0 },
+      "6th": { total: 3, used: jsonGameState?.spellSlots?.["6th"]?.used || 0 },
+      "7th": { total: 2, used: jsonGameState?.spellSlots?.["7th"]?.used || 0 },
+      "8th": { total: 2, used: jsonGameState?.spellSlots?.["8th"]?.used || 0 },
+      "9th": { total: 2, used: jsonGameState?.spellSlots?.["9th"]?.used || 0 },
+      "10th": { total: 1, used: jsonGameState?.spellSlots?.["10th"]?.used || 0 },
+      "11th": { total: 1, used: jsonGameState?.spellSlots?.["11th"]?.used || 0 },
+    },
+    longRestAbilities: {
+      "Perfect Strike": { total: 3, used: jsonGameState?.longRestAbilities?.["Perfect Strike"]?.used || 0 },
+      "Chronal Shift": { total: 2, used: jsonGameState?.longRestAbilities?.["Chronal Shift"]?.used || 0 },
+      "Momentary Stasis": { total: 1, used: jsonGameState?.longRestAbilities?.["Momentary Stasis"]?.used || 0 },
+      "Convergent Future": { total: 1, used: jsonGameState?.longRestAbilities?.["Convergent Future"]?.used || 0 },
+      "Legendary Resistance": { total: 4, used: jsonGameState?.longRestAbilities?.["Legendary Resistance"]?.used || 0 },
+      "Ataque Entrópico": { total: 3, used: jsonGameState?.longRestAbilities?.["Ataque Entrópico"]?.used || 0 },
+      "Fuego Puro": { total: 3, used: jsonGameState?.longRestAbilities?.["Fuego Puro"]?.used || 0 },
+      "Escudo de la Última Esperanza": { total: 3, used: jsonGameState?.longRestAbilities?.["Escudo de la Última Esperanza"]?.used || 0 },
+    },
+    legendaryResistances: {
+      total: 14,
+      used: jsonGameState?.legendaryResistances?.used || 0,
+    },
+    lastUpdated: jsonGameState?.lastUpdated || Date.now(),
+  };
+  
+  return initialState;
+};
 
 const STORAGE_KEY = 'velsirion-character-state';
 
@@ -120,7 +144,13 @@ export class GameStateManager {
   private saveState(): void {
     try {
       this.state.lastUpdated = Date.now();
+      // Save to localStorage for backward compatibility
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+      
+      // Also export to JSON file (async, don't wait for it)
+      filePersistenceManager.exportGameState(this.state).catch(error => {
+        console.warn('Failed to export to JSON file:', error);
+      });
     } catch (error) {
       console.error('Error saving game state:', error);
     }
@@ -251,6 +281,23 @@ export class GameStateManager {
     this.state = getInitialState();
     this.saveState();
     this.notifyListeners();
+  }
+
+  // Export current state to JSON file
+  async exportToFile(): Promise<void> {
+    return filePersistenceManager.exportGameState(this.state);
+  }
+
+  // Import state from JSON file
+  async importFromFile(file: File): Promise<boolean> {
+    const importedState = await filePersistenceManager.importGameState(file);
+    if (importedState) {
+      this.state = importedState;
+      this.saveState();
+      this.notifyListeners();
+      return true;
+    }
+    return false;
   }
 }
 
