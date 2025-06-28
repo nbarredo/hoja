@@ -15,8 +15,12 @@ export class FilePersistenceManager {
   // Export the current game state as a downloadable JSON file
   async exportGameState(gameState: GameState): Promise<void> {
     try {
+      // Use different paths for development vs production
+      const isDevelopment = import.meta.env.DEV;
+      const jsonPath = isDevelopment ? '/velsirion.json' : '/hoja/velsirion.json';
+      
       // Fetch the current velsirion.json data
-      const response = await fetch('/hoja/velsirion.json');
+      const response = await fetch(jsonPath);
       const velsirionData = await response.json();
 
       // Update the gameState section with current values
