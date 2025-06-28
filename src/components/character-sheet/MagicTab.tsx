@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { useGameState } from '@/hooks/useGameState'
 import type { CharacterData } from './types'
 
 interface MagicTabProps {
@@ -7,6 +8,20 @@ interface MagicTabProps {
 }
 
 export function MagicTab({ characterData }: MagicTabProps) {
+  const { state, actions } = useGameState()
+
+  const handleSpellSlotClick = (level: string) => {
+    actions.useSpellSlot(level)
+  }
+
+  const handleSpellSlotRestore = (level: string) => {
+    actions.restoreSpellSlot(level)
+  }
+
+  const handleAbilityUse = (abilityName: string) => {
+    actions.useAbility(abilityName)
+  }
+
   return (
     <div className="space-y-6">
       {/* Spell Slots */}
@@ -16,10 +31,34 @@ export function MagicTab({ characterData }: MagicTabProps) {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-11 gap-3">
-            {characterData.spellSlots && Object.entries(characterData.spellSlots).map(([level, slots]) => (
+            {Object.entries(state.spellSlots).map(([level, slot]) => (
               <div key={level} className="text-center p-3 border border-gray-700 rounded bg-gray-800">
-                <div className="text-2xl font-bold text-white mb-1">{slots}</div>
-                <div className="text-xs text-gray-300 uppercase font-medium">Level {level}</div>
+                <div className="text-xs text-gray-300 uppercase font-medium mb-2">Level {level}</div>
+                <div className="flex flex-wrap gap-1 justify-center mb-2">
+                  {Array.from({ length: slot.total }, (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        if (index < slot.used) {
+                          // Restore this slot
+                          handleSpellSlotRestore(level)
+                        } else {
+                          // Use this slot
+                          handleSpellSlotClick(level)
+                        }
+                      }}
+                      className={`w-7 h-7 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
+                        index < slot.used
+                          ? 'bg-gray-600 border-gray-500 hover:bg-gray-500' // Used
+                          : 'bg-blue-600 border-blue-500 hover:bg-blue-700 hover:border-blue-400' // Available
+                      }`}
+                      title={index < slot.used ? 'Click to restore' : 'Click to use'}
+                    />
+                  ))}
+                </div>
+                <div className="text-sm text-white">
+                  {slot.total - slot.used}/{slot.total}
+                </div>
               </div>
             ))}
           </div>
@@ -51,6 +90,46 @@ export function MagicTab({ characterData }: MagicTabProps) {
               <p className="text-sm text-gray-300 font-medium">{characterData.spellcasting.note}</p>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Limited Use Abilities */}
+      <Card className="bg-gray-900 border-gray-700">
+        <CardHeader className="border-b border-gray-700">
+          <CardTitle className="text-xl font-bold text-white">Limited Use Abilities (Per Long Rest)</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(state.longRestAbilities).map(([abilityName, ability]) => (
+              <div key={abilityName} className="p-4 border border-gray-700 rounded bg-gray-800">
+                <h4 className="font-bold text-white text-sm mb-2">{abilityName}</h4>
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {Array.from({ length: ability.total }, (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        if (index < ability.used) {
+                          // Can't restore individual uses, only via long rest
+                          return
+                        } else {
+                          handleAbilityUse(abilityName)
+                        }
+                      }}
+                      className={`w-5 h-5 rounded-md border-2 transition-all duration-200 shadow-sm ${
+                        index < ability.used
+                          ? 'bg-gray-600 border-gray-500 cursor-not-allowed' // Used
+                          : 'bg-green-600 border-green-500 hover:bg-green-700 hover:border-green-400 cursor-pointer' // Available
+                      }`}
+                      title={index < ability.used ? 'Used (restore with long rest)' : 'Click to use'}
+                    />
+                  ))}
+                </div>
+                <div className="text-xs text-white">
+                  {ability.total - ability.used}/{ability.total} remaining
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 

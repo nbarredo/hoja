@@ -67,27 +67,31 @@
     },
     "hitPoints": {
       "maximum": 3567,
+      "current": 3567,
       "breakdown": {
         "baseHP": 667,
         "corazonDeJinLong": 2000,
         "collarDeRyu": 500,
-        "hambreDePoder": 400
+        "hambreDePoder": "artifacts * 100"
       }
     },
     "shields": {
       "psychicShield": {
         "points": 2000,
+        "current": 2000,
         "source": "Escamas de Eccen",
         "canBeHealed": false
       },
       "towerShield": {
         "points": 1000,
+        "current": 1000,
         "source": "Resistencia de la Torre Blanca",
         "canBeHealed": false,
         "special": "Indestructible"
       },
       "magicShield": {
         "points": 500,
+        "current": 500,
         "source": "High Magic Armor",
         "canBeHealed": false
       }
@@ -164,17 +168,17 @@
     "counterspellBonus": 2,
     "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Staff of Entropy makes ALL enemies have disadvantage on spell saves.",
     "spellSlots": {
-      "1st": 4,
-      "2nd": 3,
-      "3rd": 3,
-      "4th": 3,
-      "5th": 3,
-      "6th": 3,
-      "7th": 2,
-      "8th": 2,
-      "9th": 2,
-      "10th": 1,
-      "11th": 1
+      "1st": { "total": 4, "used": 0 },
+      "2nd": { "total": 3, "used": 0 },
+      "3rd": { "total": 3, "used": 0 },
+      "4th": { "total": 3, "used": 0 },
+      "5th": { "total": 3, "used": 0 },
+      "6th": { "total": 3, "used": 0 },
+      "7th": { "total": 2, "used": 0 },
+      "8th": { "total": 2, "used": 0 },
+      "9th": { "total": 2, "used": 0 },
+      "10th": { "total": 1, "used": 0 },
+      "11th": { "total": 1, "used": 0 }
     },
     "bonuses": {
       "varaDelEfreet": "+5 DC to all spells, +200 fire damage",
@@ -424,6 +428,11 @@
           "description": "5-6 on 1d6 ignore any damage and gain +1 AC per combat"
         },
         {
+          "name": "Resistencia Entrópica",
+          "description": "6 on 1d6 - Returns damage received",
+          "source": "Staff of Entropy"
+        },
+        {
           "name": "Furia de Naxaaris (II)",
           "description": "15 ft aura doubles fixed damage adjustments (allies and self)"
         },
@@ -433,7 +442,8 @@
         },
         {
           "name": "Hambre de Poder (Legendaria)",
-          "description": "Eat 4 legendary objects, gain +100 HP per artifact owned (currently +600 HP)"
+          "description": "Eat 4 legendary objects, gain +100 HP per artifact owned",
+          "calculation": "artifacts * 100"
         },
         {
           "name": "Sombra de Nemmoris (II)",

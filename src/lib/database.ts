@@ -1,5 +1,8 @@
-import velsirionData from '../../data/velsirion.json'
+import velsirionDataImport from '../../data/velsirion.json'
 import type { CharacterData, Shields } from '@/components/character-sheet/types'
+
+// Export the imported data
+export const velsirionData = velsirionDataImport
 
 // Convert the updated velsirion.json data to our expected format
 export const transformUpdatedCharacterData = (data: any): CharacterData => {
@@ -154,6 +157,11 @@ export const transformUpdatedCharacterData = (data: any): CharacterData => {
     immunities: [...data.immunities.damageTypes, ...data.immunities.conditions],
     resistances: data.resistances.special,
     regeneration: `${data.regeneration.forest}/turn (forest), ${data.regeneration.nearTrees}/turn (near trees), ${data.regeneration.otherwise}/turn (otherwise)`,
+    legendaryResistances: {
+      total: 14,
+      used: 0,
+      sources: ["Heart of Ryu (10)", "Great Wyrm (4)"]
+    },
     additionalInfo: {
       proficiencyBonus: `+${data.character.proficiencyBonus}`,
       languages: data.languages.join(', '),

@@ -44,6 +44,7 @@ export interface Attack {
 export interface Skill {
   name: string;
   value: number;
+  expertise?: boolean;
 }
 
 export interface Save {
@@ -95,5 +96,10 @@ export interface CharacterData {
   immunities: string[];
   resistances: string[];
   regeneration: string;
+  legendaryResistances?: {
+    total: number;
+    used: number;
+    sources: string[];
+  };
   additionalInfo: AdditionalInfo;
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getCharacterData } from '@/lib/database'
+import { useGameState } from '@/hooks/useGameState'
 import { BasicStatsTab } from '@/components/character-sheet/BasicStatsTab'
-import { SkillsTab } from '@/components/character-sheet/SkillsTab'
+import { SkillsTabComponent } from '@/components/character-sheet/Skills'
 import { MagicTab } from '@/components/character-sheet/MagicTab'
 import { MagicItemsTab } from '@/components/character-sheet/MagicItemsTab'
 import { DragonPowersTab } from '@/components/character-sheet/DragonPowersTab'
@@ -11,6 +12,7 @@ import type { CharacterData } from '@/components/character-sheet/types'
 
 function App() {
   const [characterData, setCharacterData] = useState<CharacterData | null>(null)
+  const { actions } = useGameState()
 
   useEffect(() => {
     try {
@@ -21,6 +23,10 @@ function App() {
       console.error('Error loading character data:', error)
     }
   }, [])
+
+  const handleLongRest = () => {
+    actions.longRest()
+  }
 
   if (!characterData) {
     return (
@@ -35,12 +41,31 @@ function App() {
       <div className="max-w-7xl mx-auto p-6">
         {/* Character Header */}
         <div className="mb-8 border-b border-gray-800 pb-6">
-          <h1 className="text-5xl font-bold tracking-wide mb-2 text-white">
-            {characterData.name}
-          </h1>
-          <p className="text-xl text-gray-300 font-medium">
-            {characterData.subtitle}
-          </p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-5xl font-bold tracking-wide mb-2 text-white">
+                {characterData.name}
+              </h1>
+              <p className="text-xl text-gray-300 font-medium">
+                {characterData.subtitle}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={handleLongRest}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+              >
+                🌙 Long Rest
+              </button>
+              <button 
+                onClick={() => actions.reset()}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl text-sm"
+                title="Reset all state (for debugging)"
+              >
+                🔄 Reset
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Main Tabs */}
@@ -89,7 +114,7 @@ function App() {
           </TabsContent>
 
           <TabsContent value="skills">
-            <SkillsTab characterData={characterData} />
+            <SkillsTabComponent characterData={characterData} />
           </TabsContent>
 
           <TabsContent value="magic">
