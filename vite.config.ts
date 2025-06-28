@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/hoja/',
   build: {
-    outDir: 'docs', // 👈 change output directory
+    outDir: 'dist',
   },
   resolve: {
     alias: {
