@@ -9,6 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react()],
   base: '/hoja/',
+  build: {
+    outDir: 'docs', // 👈 change output directory
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
