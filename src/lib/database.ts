@@ -1,4 +1,4 @@
-import velsirionDataImport from '../../data/velsirion.json'
+import velsirionDataImport from '../../public/velsirion.json'
 import type { CharacterData, Shields } from '@/components/character-sheet/types'
 
 // Export the imported data

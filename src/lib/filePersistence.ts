@@ -16,7 +16,7 @@ export class FilePersistenceManager {
   async exportGameState(gameState: GameState): Promise<void> {
     try {
       // Fetch the current velsirion.json data
-      const response = await fetch('/data/velsirion.json');
+      const response = await fetch('/velsirion.json');
       const velsirionData = await response.json();
 
       // Update the gameState section with current values
