@@ -1,0 +1,652 @@
+{
+  "character": {
+    "name": "VELSIRION ASTAROTH XEPHER",
+    "title": "El Dragón Aurio",
+    "level": 23,
+    "race": "Amethyst Dragon (Gem Greatwyrm)",
+    "class": "Chronurgy Wizard",
+    "subclass": "Aprendiz de Ambarios",
+    "background": "Mysterious origin (egg fell from sky on Isle of Aris)",
+    "proficiencyBonus": 8
+  },
+  "abilityScores": {
+    "strength": {
+      "score": 28,
+      "modifier": 9,
+      "savingThrow": 18,
+      "proficient": false,
+      "savingThrowBreakdown": "9 (mod) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    },
+    "dexterity": {
+      "score": 20,
+      "modifier": 5,
+      "savingThrow": 22,
+      "proficient": true,
+      "savingThrowBreakdown": "5 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    },
+    "constitution": {
+      "score": 28,
+      "modifier": 9,
+      "savingThrow": 26,
+      "proficient": true,
+      "savingThrowBreakdown": "9 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    },
+    "intelligence": {
+      "score": 32,
+      "modifier": 11,
+      "savingThrow": 27,
+      "proficient": true,
+      "notes": "+2 from Mask of the Dragon King",
+      "savingThrowBreakdown": "11 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    },
+    "wisdom": {
+      "score": 19,
+      "modifier": 4,
+      "savingThrow": 21,
+      "proficient": true,
+      "savingThrowBreakdown": "4 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    },
+    "charisma": {
+      "score": 23,
+      "modifier": 6,
+      "savingThrow": 23,
+      "proficient": true,
+      "savingThrowBreakdown": "6 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+    }
+  },
+  "combat": {
+    "armorClass": {
+      "total": 52,
+      "breakdown": {
+        "naturalArmor": 40,
+        "collarDeRyu": 5,
+        "korlakBonus": 2,
+        "anilloDeFuriell": 5,
+        "notes": "High Magic Armor AC 25 superseded by natural armor"
+      }
+    },
+    "hitPoints": {
+      "maximum": 3567,
+      "breakdown": {
+        "baseHP": 667,
+        "corazonDeJinLong": 2000,
+        "collarDeRyu": 500,
+        "hambreDePoder": 400
+      }
+    },
+    "shields": {
+      "psychicShield": {
+        "points": 2000,
+        "source": "Escamas de Eccen",
+        "canBeHealed": false
+      },
+      "towerShield": {
+        "points": 1000,
+        "source": "Resistencia de la Torre Blanca",
+        "canBeHealed": false,
+        "special": "Indestructible"
+      },
+      "magicShield": {
+        "points": 500,
+        "source": "High Magic Armor",
+        "canBeHealed": false
+      }
+    },
+    "initiative": 21,
+    "speed": {
+      "walking": "60 ft",
+      "burrow": "60 ft",
+      "flying": "120 ft (hover)",
+      "swimming": "60 ft"
+    }
+  },
+  "attacks": {
+    "meleeAttacks": [
+      {
+        "name": "Garra de Yrkaryn (Right Claw)",
+        "attackBonus": 27,
+        "damage": "1d100+29",
+        "damageType": "Super Slashing + Equal Super [Chosen Energy]",
+        "special": ["Auto-dispels magic up to level 9", "Garra Disruptora", "Gains Equal Super damage of chosen energy type"]
+      },
+      {
+        "name": "Garra de Myastan (Left Claw)",
+        "attackBonus": 27,
+        "damage": "1d100+29",
+        "damageType": "Super Sacred + Equal Super [Chosen Energy]",
+        "special": ["Heals you for damage dealt", "Healing Touch: 3/LR touch heals 500 HP", "Gains Equal Super damage of chosen energy type"]
+      },
+      {
+        "name": "The Staff of Entropy",
+        "attackBonus": 37,
+        "damage": "3d100+300",
+        "damageType": "Super Weapon + Equal Chaos + Equal Super [Chosen Energy]",
+        "special": [
+          "Always attacks with advantage",
+          "Takes form of any weapon",
+          "Gains Equal Super damage of chosen energy type from Anillo de Furiell",
+          "Ataque Entrópico (3/LR) - Automatic hit, ignores shields, direct HP damage",
+          "Resistencia Entrópica (6 on 1d6) - Returns damage received"
+        ]
+      }
+    ],
+    "specialAttacks": [
+      {
+        "name": "Perfect Strike",
+        "uses": "3/LR",
+        "effect": "Automatic hit (check for critical)"
+      },
+      {
+        "name": "Explosive Crystal/Psychic Power",
+        "uses": "Once per turn",
+        "effect": "Free action ability from eaten magic item"
+      }
+    ],
+    "breathWeapon": {
+      "name": "Singularity Breath (Enhanced)",
+      "damage": {
+        "base": "10d8 force",
+        "enhanced": "+500 (Aliento de Hei Long)",
+        "collarBonus": "+500 (when used as bonus action)",
+        "total": "10d8+500 or 10d8+1000 with collar"
+      },
+      "saveDC": {
+        "base": 55,
+        "withCollar": 65
+      },
+      "special": ["Hyper damage", "Auto-recharges", "Intensificar maximizes damage"]
+    }
+  },
+  "spellcasting": {
+    "ability": "Intelligence",
+    "spellSaveDC": 52,
+    "spellAttackBonus": 36,
+    "counterspellBonus": 2,
+    "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Staff of Entropy makes ALL enemies have disadvantage on spell saves.",
+    "spellSlots": {
+      "1st": 4,
+      "2nd": 3,
+      "3rd": 3,
+      "4th": 3,
+      "5th": 3,
+      "6th": 3,
+      "7th": 2,
+      "8th": 2,
+      "9th": 2,
+      "10th": 1,
+      "11th": 1
+    },
+    "bonuses": {
+      "varaDelEfreet": "+5 DC to all spells, +200 fire damage",
+      "staffOfEntropy": "+10 DC and Magic Attack, spells ignore shields and cause specific wounds",
+      "collarDeRyu": "Heal 100 HP per spell cast",
+      "magiaGuerrera": "+5 magical RDC when casting with claws"
+    }
+  },
+  "skills": {
+    "arcana": {
+      "bonus": 29,
+      "proficient": true,
+      "expertise": false,
+      "notes": "+10 from Codicia de Iscalien"
+    },
+    "athletics": {
+      "bonus": 17,
+      "proficient": true
+    },
+    "history": {
+      "bonus": 29,
+      "proficient": true,
+      "notes": "+10 from Codicia de Iscalien"
+    },
+    "insight": {
+      "bonus": 12,
+      "proficient": true
+    },
+    "investigation": {
+      "bonus": 19,
+      "proficient": true
+    },
+    "perception": {
+      "bonus": 12,
+      "proficient": true
+    },
+    "persuasion": {
+      "bonus": 14,
+      "proficient": true
+    },
+    "religion": {
+      "bonus": 19,
+      "proficient": true
+    },
+    "stealth": {
+      "bonus": 13,
+      "proficient": true
+    }
+  },
+  "equipment": {
+    "artifacts": [
+      {
+        "name": "Anillo de lo Inevitable",
+        "rarity": "Legendary Artifact",
+        "effects": [
+          "Resistencia Total (Daño) - Resists all damage types",
+          "Immune to negative temporal effects",
+          "Destino Desfavorable (Free) - Force enemy fails or legendary resistance",
+          "Destino Favorable (Free) - Enemy fails save/attack automatically",
+          "Quicken Spell (Bonus) - Cast memorized spell",
+          "Action Surge (Reaction) - +1 Action",
+          "Super Action Surge (Free - Prof Charges) - +1 Action to whole group",
+          "Viajar en el Tiempo (Arcana 50) - Time travel ritual",
+          "Tiempo Final (Arcana 200) - Go to end of time"
+        ]
+      },
+      {
+        "name": "Vara del Último Efreet",
+        "rarity": "Artifact",
+        "effects": [
+          "Vara de Evocación (Legendaria) - +5 DC and Attack, +200 fire damage",
+          "Fuego Puro (Free - 3/LR) - Double fire damage on target",
+          "Maestro Evocador (Legendaria) - Evocation spells cost no slot, high magic half cost",
+          "Los Tres Deseos Ígneos (3 charges) - Reality-altering fire wishes"
+        ]
+      },
+      {
+        "name": "Libro de Ambarios",
+        "rarity": "Artifact",
+        "effects": [
+          "Advanced magic techniques from all arcane cultures",
+          "3 unique Amber archmagic scrolls",
+          "Encyclopedia of great secrets (requires 100 Arcana to unlock)"
+        ]
+      },
+      {
+        "name": "Armadura 'El Legado de los Ancestros'",
+        "rarity": "Elven Artifact",
+        "effects": [
+          "Armadura Ligera (+25 AC) - doesn't stack with natural armor",
+          "Resistencia de la Torre Blanca - 1000 HP indestructible shield",
+          "Crecimiento Silvano (Legendary) - Regeneration in forests",
+          "Eco de los héroes (Free - 1/Day) - Summon hero spirit"
+        ]
+      },
+      {
+        "name": "The Staff of Entropy",
+        "rarity": "Artifact",
+        "effects": [
+          "Arma Entrópica (+10) - Takes form of any weapon",
+          "Always attacks with advantage",
+          "Damage: 3d100+300 Super Weapon + Equal Chaos damage",
+          "Ataque Entrópico (3/LR) - Automatic hit, causes specific wounds, ignores shields, damages HP directly",
+          "Resistencia Entrópica (6 on 1d6) - Returns damage received",
+          "Magia Entrópica (+10) - +10 DC and Magic Attack bonus",
+          "Your spell DC always causes disadvantage on saves",
+          "Spell damage causes specific wounds, ignores shields, damages HP directly"
+        ]
+      },
+      {
+        "name": "Anillo de Furiell",
+        "rarity": "Artifact",
+        "effects": [
+          "Anillo de Protección Cósmica - +5 AC and saving throws in 15 ft radius",
+          "Energy Selection - Choose one energy at combat start: Fire, Cold, Lightning, Acid, Force, Thunder",
+          "Super Immunity to chosen energy type",
+          "Weapons deal Equal Super damage of chosen type",
+          "Energy Transformation (5-6 on casting) - Transform chosen energy spells into Furiell energy",
+          "Furiell Damage Effects: Breaks 1d6 AC permanently, removes 1 Legendary Resistance automatically, causes specific wounds",
+          "Estado Reiterativo - Furiell damage repeats at start of victim's turn (no vulnerability)"
+        ]
+      }
+    ],
+    "legendaryItems": [
+      {
+        "name": "Mask of the Dragon King",
+        "rarity": "Legendary",
+        "effects": [
+          "+2 Intelligence (included in stats)",
+          "Intelligence-based skill expertise or proficiency",
+          "Advantage on attacks vs Tiamat worshippers & chromatic dragons",
+          "Enemies have disadvantage on saves vs your spells/effects",
+          "Transform familiar into metallic bird or Young Dragon (1/LR)"
+        ]
+      },
+      {
+        "name": "Collar de Ryu",
+        "rarity": "Unique",
+        "effects": [
+          "+5 DC and AC",
+          "+500 HP",
+          "Heal 100 HP whenever you cast a spell",
+          "Aliento Radiante (Legendaria) - Bonus action breath with +10 DC and +500 damage"
+        ]
+      },
+      {
+        "name": "Eyestone (Amatista)",
+        "rarity": "Legendary",
+        "effects": [
+          "Vision Amatista (Passive) - +2 Counterspell, reveals magical power, max slot level",
+          "Salto Etéreo (Action) - Enter/exit Ethereal Plane + ally",
+          "Mana Absorption (Bonus Action) - Absorb spell slot (prof level or less)"
+        ]
+      },
+      {
+        "name": "Urna de las Estrellas",
+        "rarity": "Celestial Relic",
+        "effects": [
+          "Contains Luha's ashes",
+          "Evasión de la Realidad - Cannot be detected by divination",
+          "Rechazo del Mal - Evil creatures take 1000 Ultra Radiant damage",
+          "Memoria Celestial - Pure souls can see Luha's sacrifice",
+          "Corazón de Sello - Keeps Jhalu imprisoned"
+        ]
+      }
+    ]
+  },
+  "features": {
+    "eatenMagicItems": {
+      "description": "Consumed through Hambre de Poder (Legendary ability)",
+      "totalConsumed": 6,
+      "bonuses": [
+        {
+          "name": "Proficiency Bonus Enhancement",
+          "effect": "+1 to proficiency bonus (included in stats)"
+        },
+        {
+          "name": "Critical Hit Immunity",
+          "effect": "Immune to critical hits"
+        },
+        {
+          "name": "Save DC Enhancement", 
+          "effect": "+5 to all save DCs (+3 DC and +2 DC combined)"
+        },
+        {
+          "name": "Saving Throw Enhancement",
+          "effect": "+2 to all saving throws"
+        },
+        {
+          "name": "Magic Attack Enhancement",
+          "effect": "+2 to magic attack rolls"
+        },
+        {
+          "name": "Multiattack Enhancement",
+          "effect": "+1 claw attack to multiattack"
+        },
+        {
+          "name": "Explosive Crystal/Psychic Power",
+          "effect": "Free action, once per turn"
+        }
+      ]
+    },
+    "racialTraits": {
+      "gemGreatwyrm": [
+        {
+          "name": "Gem Awakening",
+          "description": "If reduced to 0 HP, reset to 400 HP instead, recharge breath weapon, regain legendary resistance uses"
+        },
+        {
+          "name": "Mass Telekinesis",
+          "description": "Target unlimited creatures/objects within 120 ft (max 4,000 lbs each), move up to 60 ft, deal 45 (7d12) force damage"
+        },
+        {
+          "name": "Legendary Resistance",
+          "uses": "4/Day",
+          "description": "Choose to succeed on failed saves"
+        },
+        {
+          "name": "Spell-like Abilities",
+          "uses": "1/day each",
+          "spells": ["Blink", "Control Water", "Dispel Magic", "Freedom of Movement", "Globe of Invulnerability", "Plane Shift", "Protection from Evil and Good", "Sending", "Forcecage", "Reverse Gravity", "Time Stop"]
+        },
+        {
+          "name": "Unusual Nature",
+          "description": "Doesn't require food or drink"
+        },
+        {
+          "name": "Change Shape (Bonus Action)",
+          "description": "Transform into any Medium or Small creature while retaining game statistics (except size). Ends if reduced to 0 HP or uses bonus action to end."
+        },
+        {
+          "name": "Psychic Step (Bonus Action)",
+          "description": "Teleport to unoccupied space within 60 feet"
+        }
+      ],
+      "dragonAbilities": [
+        {
+          "name": "Corazón de Jin Long/Ryu (IV)",
+          "description": "+2000 HP, dragon longevity, reincarnation after millennium"
+        },
+        {
+          "name": "Escamas de Eccen (IV)",
+          "description": "40 AC natural armor, 2000 HP psychic shield"
+        },
+        {
+          "name": "Resistencia de Eccen",
+          "description": "5-6 on 1d6 ignore any damage and gain +1 AC per combat"
+        },
+        {
+          "name": "Furia de Naxaaris (II)",
+          "description": "15 ft aura doubles fixed damage adjustments (allies and self)"
+        },
+        {
+          "name": "Codicia de Iscalien (II)",
+          "description": "+10 Arcana/History, artifacts reveal purpose, immunity to domination"
+        },
+        {
+          "name": "Hambre de Poder (Legendaria)",
+          "description": "Eat 4 legendary objects, gain +100 HP per artifact owned (currently +600 HP)"
+        },
+        {
+          "name": "Sombra de Nemmoris (II)",
+          "description": "Shadow consciousness awakens when unconscious, can fight while in death saves"
+        },
+        {
+          "name": "Limbo Dracónico (Legendaria)",
+          "description": "5 death saves instead of 3, advantage on death saves"
+        },
+        {
+          "name": "Frenesí de Nemmoris (Legendaria)",
+          "description": "While making death saves: auto-hit attacks, super necrotic damage, multiple death marks"
+        }
+      ]
+    },
+    "classFeatures": {
+      "chronurgyWizard": [
+        {
+          "name": "Temporal Awareness",
+          "description": "+11 to initiative (Intelligence modifier)"
+        },
+        {
+          "name": "Chronal Shift",
+          "uses": "2/LR",
+          "description": "Force reroll of attack, ability check, or save within 30 feet"
+        },
+        {
+          "name": "Momentary Stasis",
+          "uses": "1/LR",
+          "description": "Incapacitate creature for 1 minute (save each turn)"
+        },
+        {
+          "name": "Arcane Abeyance",
+          "description": "Store spell in bead for others to use"
+        },
+        {
+          "name": "Convergent Future",
+          "uses": "1/LR",
+          "description": "Make any d20 roll an 11"
+        }
+      ]
+    },
+    "pathOfWhiteMoon": [
+      {
+        "name": "Luha's Guidance (Legendaria)",
+        "description": "+1d8 to d20 checks, double all healing, when you save a save an ally saves too"
+      },
+      {
+        "name": "Círculo Sagrado (15 ft radius)",
+        "description": "Permanent abjuration cylinder, creatures can't enter by non-magical means"
+      },
+      {
+        "name": "Escudo de la Última Esperanza",
+        "uses": "3/LR",
+        "description": "Prevent death, gain super immunity to that damage type + healing"
+      },
+      {
+        "name": "Milagro de la Segunda Vida",
+        "uses": "3 charges",
+        "description": "True resurrection with sacred mission, no negative effects"
+      }
+    ],
+    "ambariosTraining": [
+      {
+        "name": "Training Bonuses",
+        "description": "+5 DC, +5 Attack, +5 Dispelling DC to all abilities"
+      },
+      {
+        "name": "Magia de Sangre",
+        "description": "Spend 50% max HP for x2 spell damage"
+      },
+      {
+        "name": "Magia Líquida",
+        "description": "Change spell energy type and reshape area of effect"
+      },
+      {
+        "name": "Piromancia Avanzada",
+        "description": "Use Super Fire and maximize damage"
+      },
+      {
+        "name": "Magia del Caos",
+        "description": "Your DC always causes disadvantage, damage cannot be healed"
+      },
+      {
+        "name": "Magia Perseverante",
+        "description": "When using magic: all 1s become 10s, all 10s become 20s"
+      },
+      {
+        "name": "Magia Hermética",
+        "description": "+2 AC when casting spells (1 round)"
+      },
+      {
+        "name": "Magia Disyuntiva",
+        "description": "Can dispel magic when casting any spell (d20 check)"
+      },
+      {
+        "name": "Magia Engañosa",
+        "description": "If enemy saves against spell, can redirect to another target"
+      },
+      {
+        "name": "Magia Ámbar",
+        "description": "+10 DC, requires 2 LR to save automatically"
+      }
+    ]
+  },
+  "permanentSpells": [
+    {
+      "name": "High Magic Armor",
+      "duration": "24 hours",
+      "effects": [
+        "AC 25 (superseded by natural armor)",
+        "Magic Resistance (advantage on magical saves)",
+        "+500 HP shield",
+        "Reaction: +10 AC magical shield blocks first non-natural 20 attack"
+      ]
+    }
+  ],
+  "immunities": {
+    "damageTypes": [
+      "Super Fire",
+      "Super Lightning", 
+      "Magical Attacks",
+      "Critical Hits"
+    ],
+    "conditions": [
+      "Charmed",
+      "Frightened", 
+      "Poisoned",
+      "Prone",
+      "Negative Temporal Effects",
+      "Paralyzed",
+      "Possessed"
+    ]
+  },
+  "resistances": {
+    "special": [
+      "Resistencia Total (all damage types from Ring)",
+      "Magic Resistance (advantage on saves vs spells/magical effects)"
+    ]
+  },
+  "regeneration": {
+    "forest": "500 HP/turn",
+    "nearTrees": "200 HP/turn", 
+    "otherwise": "100 HP/turn"
+  },
+  "languages": [
+    "Common",
+    "Draconic",
+    "Telepathy 120 ft"
+  ],
+  "senses": [
+    "Truesight 120 ft",
+    "Passive Perception 25"
+  ],
+  "feats": [
+    {
+      "name": "Alert",
+      "effects": [
+        "+5 bonus to initiative",
+        "Cannot be surprised while conscious",
+        "Hidden attackers don't gain advantage"
+      ]
+    }
+  ],
+  "activeQuests": {
+    "draconic": [
+      {
+        "name": "Ryu's Quest",
+        "description": "Protect Galath from Draconic Threat, destroy Yaar Emissaries (10 days)"
+      },
+      {
+        "name": "Kanji's Quest", 
+        "description": "Break Platinum Chains to face Draconic Threat"
+      }
+    ],
+    "whiteMoon": [
+      {
+        "name": "Luha Quest I",
+        "status": "COMPLETED",
+        "description": "Find urn with Luha's ashes"
+      },
+      {
+        "name": "Luha Quest II",
+        "status": "ACTIVE",
+        "description": "Revive Luha"
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "Ark Quest I",
+        "description": "Find the Ark (beware Guardian)"
+      },
+      {
+        "name": "Ark Quest II", 
+        "description": "Find Command Center (beware Dungeon)"
+      },
+      {
+        "name": "Ark Quest III",
+        "description": "Time travel with families to the future"
+      }
+    ]
+  },
+  "backstory": {
+    "origin": "Egg fell from sky on Isle of Aris",
+    "education": "Accepted as apprentice in Order of Fael thanks to Edict of Aris",
+    "mentor": "Ambril 'La Dama de Plata' handled education and expenses",
+    "specialTraining": "Only one who spoke of chronomancy during stay",
+    "family": "Never knew biological family, topic never discussed"
+  },
+  "bonds": {
+    "korlak": {
+      "relationship": "Ally",
+      "bonuses": "+2 to all saving throws, +2 AC"
+    }
+  }
+}

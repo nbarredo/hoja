@@ -1,0 +1,13 @@
+{
+    "terminal.integrated.profiles.windows": {
+    "Node 16": {
+      "path": "powershell.exe",
+      "args": ["-NoExit", "-Command", "nvm use 16"]
+    },
+    "Node 24": {
+      "path": "powershell.exe",
+      "args": ["-NoExit", "-Command", "nvm use 24"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Node 24",
+}

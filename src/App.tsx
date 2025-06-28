@@ -1,0 +1,116 @@
+import { useState, useEffect } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { getCharacterData } from '@/lib/database'
+import { BasicStatsTab } from '@/components/character-sheet/BasicStatsTab'
+import { SkillsTab } from '@/components/character-sheet/SkillsTab'
+import { MagicTab } from '@/components/character-sheet/MagicTab'
+import { MagicItemsTab } from '@/components/character-sheet/MagicItemsTab'
+import { DragonPowersTab } from '@/components/character-sheet/DragonPowersTab'
+import { DefensesTab } from '@/components/character-sheet/DefensesTab'
+import type { CharacterData } from '@/components/character-sheet/types'
+
+function App() {
+  const [characterData, setCharacterData] = useState<CharacterData | null>(null)
+
+  useEffect(() => {
+    try {
+      const data = getCharacterData()
+      console.log('Loaded character data:', data)
+      setCharacterData(data)
+    } catch (error) {
+      console.error('Error loading character data:', error)
+    }
+  }, [])
+
+  if (!characterData) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Character Header */}
+        <div className="mb-8 border-b border-gray-800 pb-6">
+          <h1 className="text-5xl font-bold tracking-wide mb-2 text-white">
+            {characterData.name}
+          </h1>
+          <p className="text-xl text-gray-300 font-medium">
+            {characterData.subtitle}
+          </p>
+        </div>
+
+        {/* Main Tabs */}
+        <Tabs defaultValue="main" className="w-full">
+          <TabsList className="bg-gray-900 border border-gray-800 mb-8">
+            <TabsTrigger 
+              value="main" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Main
+            </TabsTrigger>
+            <TabsTrigger 
+              value="skills" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Skills
+            </TabsTrigger>
+            <TabsTrigger 
+              value="magic" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Magic
+            </TabsTrigger>
+            <TabsTrigger 
+              value="items" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Magic Items
+            </TabsTrigger>
+            <TabsTrigger 
+              value="dragon" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Dragon Powers
+            </TabsTrigger>
+            <TabsTrigger 
+              value="defenses" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Defenses
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="main">
+            <BasicStatsTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="skills">
+            <SkillsTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="magic">
+            <MagicTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="items">
+            <MagicItemsTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="dragon">
+            <DragonPowersTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="defenses">
+            <DefensesTab characterData={characterData} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  )
+}
+
+export default App
