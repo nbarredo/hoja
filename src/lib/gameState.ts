@@ -144,13 +144,8 @@ export class GameStateManager {
   private saveState(): void {
     try {
       this.state.lastUpdated = Date.now();
-      // Save to localStorage for backward compatibility
+      // Save to localStorage
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-      
-      // Also export to JSON file (async, don't wait for it)
-      filePersistenceManager.exportGameState(this.state).catch(error => {
-        console.warn('Failed to export to JSON file:', error);
-      });
     } catch (error) {
       console.error('Error saving game state:', error);
     }
