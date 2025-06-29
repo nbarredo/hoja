@@ -15,9 +15,8 @@ export class FilePersistenceManager {
   // Export the current game state as a downloadable JSON file
   async exportGameState(gameState: GameState): Promise<void> {
     try {
-      // Use different paths for development vs production
-      const isDevelopment = import.meta.env.DEV;
-      const jsonPath = isDevelopment ? '/velsirion.json' : '/hoja/velsirion.json';
+      // Use BASE_URL from Vite which respects the base config
+      const jsonPath = `${import.meta.env.BASE_URL}velsirion.json`;
       
       // Fetch the current velsirion.json data
       const response = await fetch(jsonPath);

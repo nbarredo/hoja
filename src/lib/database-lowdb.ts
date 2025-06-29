@@ -35,9 +35,8 @@ class DatabaseManager {
       // If no saved data or missing character data, initialize with default data
       if (!this.data || !this.data.character) {
         // Import the velsirion data
-        // Use different paths for development vs production
-        const isDevelopment = import.meta.env.DEV;
-        const jsonPath = isDevelopment ? '/velsirion.json' : '/hoja/velsirion.json';
+        // Use BASE_URL from Vite which respects the base config
+        const jsonPath = `${import.meta.env.BASE_URL}velsirion.json`;
         
         const response = await fetch(jsonPath)
         if (!response.ok) {
