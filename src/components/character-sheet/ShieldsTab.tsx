@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { Button } from '@/components/ui/button'
 import { useGameState } from '@/hooks/useGameState'
 import type { CharacterData } from './types'
 
@@ -73,25 +74,27 @@ export function ShieldsTab({ characterData: _propCharacterData }: ShieldsTabProp
                     />
                   </div>
                   <div className="flex gap-3 justify-center">
-                    <button
+                    <Button
                       onClick={() => {
                         const amount = parseInt(shieldAdjustments[shieldType] || '0')
                         if (!isNaN(amount) && amount > 0) handleShieldChange(shieldType, amount, true)
                       }}
-                      className="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+                      variant="destructive"
+                      size="sm"
                     >
                       − Damage
-                    </button>
+                    </Button>
                     {shield.canBeHealed && (
-                      <button
+                      <Button
                         onClick={() => {
                           const amount = parseInt(shieldAdjustments[shieldType] || '0')
                           if (!isNaN(amount) && amount > 0) handleShieldChange(shieldType, amount, false)
                         }}
-                        className="px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+                        size="sm"
+                        className="bg-green-600 hover:bg-green-700 text-white"
                       >
                         + Heal
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </div>

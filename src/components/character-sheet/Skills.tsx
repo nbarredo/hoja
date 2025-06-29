@@ -105,7 +105,7 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
                   skill.expertise
                     ? 'border-purple-500 bg-purple-900/30'
                     : skill.proficient 
-                    ? 'border-blue-600 bg-blue-900/20' 
+                    ? 'border-gray-600 bg-gray-900/20' 
                     : 'border-gray-700 bg-gray-800'
                 }`}
               >
@@ -117,7 +117,7 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
                       <span className="ml-2 text-purple-300">◆◆ EXPERTISE</span>
                     )}
                     {skill.proficient && !skill.expertise && (
-                      <span className="ml-2 text-blue-300">● PROFICIENT</span>
+                      <span className="ml-2 text-gray-300">● PROFICIENT</span>
                     )}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Proficiency Bonus</div>
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-blue-300 mb-1">
+              <div className="text-3xl font-bold text-gray-300 mb-1">
                 {allSkillsWithBonuses.filter(s => s.proficient && !s.expertise).length}
               </div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Proficient Skills</div>
