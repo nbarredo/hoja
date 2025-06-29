@@ -120,20 +120,20 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
   return (
     <div className="space-y-6">
       {/* Ability Scores */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Ability Scores</CardTitle>
+      <Card className="bg-card border-border">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-xl font-bold text-foreground">Ability Scores</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {abilityScores && Object.entries(abilityScores).map(([ability, data]: [string, any]) => (
-              <Card key={ability} className="bg-gray-800 border-gray-600">
+              <Card key={ability} className="bg-muted border-border">
                 <CardContent className="p-4 text-center">
-                  <div className="text-xs text-gray-300 uppercase tracking-widest mb-2 font-bold">
+                  <div className="text-xs text-muted-foreground uppercase tracking-widest mb-2 font-bold">
                     {ability.slice(0, 3)}
                   </div>
-                  <div className="text-3xl font-bold text-white mb-1">{data.score}</div>
-                  <div className="text-lg text-white font-mono font-bold">
+                  <div className="text-3xl font-bold text-foreground mb-1">{data.score}</div>
+                  <div className="text-lg text-foreground font-mono font-bold">
                     {data.modifier >= 0 ? '+' : ''}{data.modifier}
                   </div>
                 </CardContent>
@@ -144,23 +144,23 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
       </Card>
 
       {/* Physical Stats - AC, HP, Initiative, Speed */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Physical Stats</CardTitle>
+      <Card className="bg-card border-border">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-xl font-bold text-foreground">Physical Stats</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">{combat?.armorClass?.total || 'N/A'}</div>
-              <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Armor Class</div>
+            <div className="text-center p-4 border border-border rounded bg-muted">
+              <div className="text-3xl font-bold text-foreground mb-1">{combat?.armorClass?.total || 'N/A'}</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Armor Class</div>
             </div>
             
             {/* Trackable HP */}
-            <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-center p-4 border border-border rounded bg-muted">
+              <div className="text-3xl font-bold text-foreground mb-1">
                 {state.hitPoints.current}/{state.hitPoints.maximum}
               </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wider font-medium mb-3">Hit Points</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-3">Hit Points</div>
               <div className="flex justify-center mb-3">
                 <input
                   type="number"
@@ -173,7 +173,7 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                       setHpAdjustment(value)
                     }
                   }}
-                  className="w-16 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded text-center"
+                  className="w-16 px-2 py-1 text-xs bg-background text-foreground border border-border rounded text-center"
                   min="0"
                   step="1"
                 />
