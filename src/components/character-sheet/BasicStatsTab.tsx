@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { useGameState } from '@/hooks/useGameState'
 import type { CharacterData } from './types'
 
@@ -179,24 +180,28 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                 />
               </div>
               <div className="flex gap-2 justify-center">
-                <button
+                <Button
                   onClick={() => {
                     const amount = parseInt(hpAdjustment)
                     if (!isNaN(amount)) handleHPChange(amount, true)
                   }}
-                  className="px-3 py-1 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+                  variant="destructive"
+                  size="sm"
+                  className="shadow-sm"
                 >
                   − Damage
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     const amount = parseInt(hpAdjustment)
                     if (!isNaN(amount)) handleHPChange(amount, false)
                   }}
-                  className="px-3 py-1 text-xs font-medium bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+                  variant="default"
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 text-white shadow-sm"
                 >
                   + Heal
-                </button>
+                </Button>
               </div>
             </div>
             
@@ -231,20 +236,24 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                   {localLegendaryResistances.used}/{localLegendaryResistances.total} Used
                 </div>
                 <div className="flex gap-2 justify-center">
-                  <button
+                  <Button
                     onClick={handleLegendaryResistanceUse}
                     disabled={localLegendaryResistances.used >= localLegendaryResistances.total}
-                    className="px-4 py-2 text-sm font-medium bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                    variant="destructive"
+                    size="sm"
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white shadow-sm"
                   >
                     Use Resistance
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={handleLegendaryResistanceRestore}
                     disabled={localLegendaryResistances.used <= 0}
-                    className="px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                    variant="default"
+                    size="sm"
+                    className="bg-green-600 hover:bg-green-700 text-white shadow-sm"
                   >
                     Restore
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="space-y-3">
@@ -332,12 +341,13 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
               <p className="text-sm text-gray-300 mb-3">
                 Download the current game state as an updated velsirion.json file
               </p>
-              <button
+              <Button
                 onClick={handleExportData}
-                className="w-full px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 shadow-sm"
+                className="w-full"
+                variant="default"
               >
                 📥 Export to JSON File
-              </button>
+              </Button>
             </div>
             <div className="space-y-3">
               <h4 className="font-bold text-white text-lg">Import Game State</h4>

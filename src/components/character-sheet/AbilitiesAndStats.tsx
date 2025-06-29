@@ -62,12 +62,12 @@ export function CombatStats({ ac, initiative, speed, regeneration }: CombatStats
               {ac}
             </Badge>
           </div>
-          <div className="flex justify-between items-center p-3 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg border border-blue-700/30 hover:border-blue-600/50 transition-all duration-300">
-            <span className="text-blue-300 flex items-center gap-2">
+          <div className="flex justify-between items-center p-3 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg border border-gray-700/30 hover:border-gray-600/50 transition-all duration-300">
+            <span className="text-gray-300 flex items-center gap-2">
               <Zap className="w-4 h-4" />
               Initiative
             </span>
-            <Badge className="bg-gradient-to-r from-blue-600/30 to-blue-700/30 text-blue-100 border-blue-600/50 text-lg px-4 py-1 font-bold shadow-lg">
+            <Badge className="bg-gradient-to-r from-gray-600/30 to-gray-700/30 text-gray-100 border-gray-600/50 text-lg px-4 py-1 font-bold shadow-lg">
               +{initiative}
             </Badge>
           </div>

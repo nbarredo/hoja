@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { useGameState } from '@/hooks/useGameState'
 import type { CharacterData } from './types'
 
@@ -151,7 +152,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                   <div className="text-xs text-muted-foreground uppercase font-medium mb-2">Level {level}</div>
                   <div className="flex flex-wrap gap-1 justify-center mb-2">
                     {Array.from({ length: typedSlot.total }, (_, index) => (
-                      <button
+                      <Button
                         key={`${level}-${index}`}
                         onClick={() => {
                           if (index < typedSlot.used) {
@@ -162,7 +163,9 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                             handleSpellSlotClick(level)
                           }
                         }}
-                        className={`w-7 h-7 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
+                        variant="ghost"
+                        size="sm"
+                        className={`w-7 h-7 p-0 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
                           index < typedSlot.used
                             ? 'bg-muted border-border hover:bg-muted/80' // Used
                             : 'bg-primary border-primary/50 hover:bg-primary/90 hover:border-primary/70' // Available
@@ -225,7 +228,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                   <h4 className="font-bold text-foreground text-sm mb-2">{abilityName}</h4>
                   <div className="flex flex-wrap gap-1 mb-2">
                     {Array.from({ length: typedAbility.total }, (_, index) => (
-                      <button
+                      <Button
                         key={`${abilityName}-${index}`}
                         onClick={() => {
                           if (index < typedAbility.used) {
@@ -235,7 +238,9 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                             handleAbilityUse(abilityName)
                           }
                         }}
-                        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 shadow-sm ${
+                        variant="ghost"
+                        size="sm"
+                        className={`w-5 h-5 p-0 rounded-md border-2 transition-all duration-200 shadow-sm ${
                           index < typedAbility.used
                             ? 'bg-muted border-border cursor-not-allowed' // Used
                             : 'bg-green-600 border-green-500 hover:bg-green-700 hover:border-green-400 cursor-pointer' // Available
@@ -271,26 +276,30 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                 {localLegendaryResistances.used}/{localLegendaryResistances.total} Used
               </div>
               <div className="flex gap-2 justify-center">
-                <button
+                <Button
                   onClick={() => {
                     console.log('Legendary Resistance Use button clicked!', localLegendaryResistances)
                     handleLegendaryResistanceUse()
                   }}
                   disabled={localLegendaryResistances.used >= localLegendaryResistances.total}
-                  className="px-4 py-2 text-sm font-medium bg-yellow-600 hover:bg-yellow-700 disabled:bg-muted disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                  variant="destructive"
+                  size="sm"
+                  className="bg-yellow-600 hover:bg-yellow-700 text-white shadow-sm"
                 >
                   Use Resistance
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     console.log('Legendary Resistance Restore button clicked!', localLegendaryResistances)
                     handleLegendaryResistanceRestore()
                   }}
                   disabled={localLegendaryResistances.used <= 0}
-                  className="px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 disabled:bg-muted disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                  variant="default"
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 text-white shadow-sm"
                 >
                   Restore
-                </button>
+                </Button>
               </div>
             </div>
             <div className="space-y-3">

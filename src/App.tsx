@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
 import { useGameState } from '@/hooks/useGameState'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -58,63 +59,67 @@ function App() {
               </div>
               <div className="flex gap-3 items-center">
                 <ModeToggle />
-                <button 
+                <Button 
                   onClick={handleLongRest}
-                  className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  variant="default"
+                  size="lg"
+                  className="shadow-lg hover:shadow-xl"
                 >
                   🌙 Long Rest
-                </button>
-                <button 
+                </Button>
+                <Button 
                   onClick={() => actions.reset()}
-                  className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl text-sm"
+                  variant="secondary"
+                  size="sm"
+                  className="shadow-lg hover:shadow-xl"
                   title="Reset all state (for debugging)"
                 >
                   🔄 Reset
-                </button>
+                </Button>
               </div>
             </div>
           </div>          {/* Main Tabs */}
           <Tabs defaultValue="main" className="w-full">
-            <TabsList className="bg-card border border-border mb-8">
+            <TabsList className="grid w-full grid-cols-7 bg-muted/30 p-1 rounded-lg border border-border shadow-lg mb-8 h-14">
               <TabsTrigger 
                 value="main" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Main
               </TabsTrigger>
               <TabsTrigger 
                 value="skills" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Skills
               </TabsTrigger>
               <TabsTrigger 
                 value="magic" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Magic
               </TabsTrigger>
               <TabsTrigger 
                 value="items" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Magic Items
               </TabsTrigger>
               <TabsTrigger 
                 value="dragon" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Dragon Powers
               </TabsTrigger>
               <TabsTrigger 
                 value="defenses" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Defenses
               </TabsTrigger>
               <TabsTrigger 
                 value="shields" 
-                className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground hover:text-foreground transition-colors"
+                className="data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md text-muted-foreground hover:text-foreground transition-all duration-200 rounded-md font-medium text-base px-6 py-3 data-[state=active]:border data-[state=active]:border-border"
               >
                 Shields
               </TabsTrigger>

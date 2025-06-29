@@ -145,7 +145,7 @@ export function HealthAndShields({
               <Button 
                 size="icon"
                 variant="ghost"
-                className="h-6 w-6 hover:bg-blue-900/20"
+                className="h-6 w-6 hover:bg-gray-900/20"
                 onClick={() => updateShield('magic', -50)}
               >
                 <Minus className="w-3 h-3" />
@@ -153,12 +153,12 @@ export function HealthAndShields({
               <Progress 
                 value={(shields.magic / 500) * 100} 
                 className="flex-1 h-4 bg-gray-800"
-                indicatorClassName="bg-blue-500"
+                indicatorClassName="bg-gray-500"
               />
               <Button 
                 size="icon"
                 variant="ghost"
-                className="h-6 w-6 hover:bg-blue-900/20"
+                className="h-6 w-6 hover:bg-gray-900/20"
                 onClick={() => updateShield('magic', 50)}
               >
                 <Plus className="w-3 h-3" />
