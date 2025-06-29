@@ -14,6 +14,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
   // Local state for immediate UI updates
   const [localSpellSlots, setLocalSpellSlots] = useState<any>({})
   const [localAbilities, setLocalAbilities] = useState<any>({})
+  const [localLegendaryResistances, setLocalLegendaryResistances] = useState<any>({ total: 0, used: 0 })
 
   // Sync local state with global state when it changes
   useEffect(() => {
@@ -27,6 +28,12 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
       setLocalAbilities(state.longRestAbilities)
     }
   }, [state?.longRestAbilities])
+
+  useEffect(() => {
+    if (state?.legendaryResistances) {
+      setLocalLegendaryResistances(state.legendaryResistances)
+    }
+  }, [state?.legendaryResistances])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -46,7 +53,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
     // Update local state immediately for instant UI feedback
     const currentSlot = localSpellSlots[level]
     if (currentSlot && currentSlot.used < currentSlot.total) {
-      setLocalSpellSlots(prev => ({
+      setLocalSpellSlots((prev: any) => ({
         ...prev,
         [level]: { ...currentSlot, used: currentSlot.used + 1 }
       }))
@@ -63,7 +70,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
     // Update local state immediately for instant UI feedback
     const currentSlot = localSpellSlots[level]
     if (currentSlot && currentSlot.used > 0) {
-      setLocalSpellSlots(prev => ({
+      setLocalSpellSlots((prev: any) => ({
         ...prev,
         [level]: { ...currentSlot, used: currentSlot.used - 1 }
       }))
@@ -80,7 +87,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
     // Update local state immediately for instant UI feedback
     const currentAbility = localAbilities[abilityName]
     if (currentAbility && currentAbility.used < currentAbility.total) {
-      setLocalAbilities(prev => ({
+      setLocalAbilities((prev: any) => ({
         ...prev,
         [abilityName]: { ...currentAbility, used: currentAbility.used + 1 }
       }))
@@ -89,6 +96,38 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
       await actions.useAbility(abilityName)
     }
     console.log('Ability use complete:', abilityName)
+  }
+
+  const handleLegendaryResistanceUse = async () => {
+    console.log('Legendary Resistance used, Current state before:', localLegendaryResistances)
+    
+    // Update local state immediately for instant UI feedback
+    if (localLegendaryResistances.used < localLegendaryResistances.total) {
+      setLocalLegendaryResistances((prev: any) => ({
+        ...prev,
+        used: prev.used + 1
+      }))
+      
+      // Sync with database
+      await actions.useLegendaryResistance()
+    }
+    console.log('Legendary Resistance use complete')
+  }
+
+  const handleLegendaryResistanceRestore = async () => {
+    console.log('Legendary Resistance restored, Current state before:', localLegendaryResistances)
+    
+    // Update local state immediately for instant UI feedback
+    if (localLegendaryResistances.used > 0) {
+      setLocalLegendaryResistances((prev: any) => ({
+        ...prev,
+        used: prev.used - 1
+      }))
+      
+      // Sync with database
+      await actions.restoreLegendaryResistance()
+    }
+    console.log('Legendary Resistance restore complete')
   }
 
   return (
@@ -204,6 +243,53 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
               </div>
               )
             })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Legendary Resistances */}
+      <Card className="bg-gray-900 border-gray-700">
+        <CardHeader className="border-b border-gray-700">
+          <CardTitle className="text-xl font-bold text-white">Legendary Resistances</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="text-center p-6 border border-yellow-600 rounded bg-yellow-900/20">
+              <div className="text-4xl font-bold text-yellow-300 mb-2">
+                {localLegendaryResistances.total - localLegendaryResistances.used}
+              </div>
+              <div className="text-lg font-bold text-yellow-100 mb-1">Available</div>
+              <div className="text-sm text-gray-300 mb-4">
+                {localLegendaryResistances.used}/{localLegendaryResistances.total} Used
+              </div>
+              <div className="flex gap-2 justify-center">
+                <button
+                  onClick={handleLegendaryResistanceUse}
+                  disabled={localLegendaryResistances.used >= localLegendaryResistances.total}
+                  className="px-4 py-2 text-sm font-medium bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                >
+                  Use Resistance
+                </button>
+                <button
+                  onClick={handleLegendaryResistanceRestore}
+                  disabled={localLegendaryResistances.used <= 0}
+                  className="px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
+                >
+                  Restore
+                </button>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-lg">Legendary Resistance</h4>
+              <div className="border border-gray-700 rounded p-4 bg-gray-800">
+                <p className="text-gray-200 text-sm mb-2">
+                  <strong>3/Day:</strong> If Velsirion fails a saving throw, he can choose to succeed instead.
+                </p>
+                <p className="text-gray-400 text-xs">
+                  This powerful ability allows automatic success on failed saves, but can only be used a limited number of times per day.
+                </p>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

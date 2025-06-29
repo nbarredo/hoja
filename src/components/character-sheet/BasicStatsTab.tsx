@@ -123,11 +123,19 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium mb-3">Hit Points</div>
               <div className="flex justify-center mb-3">
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Amount"
                   value={hpAdjustment}
-                  onChange={(e) => setHpAdjustment(e.target.value)}
+                  onChange={(e) => {
+                    // Only allow positive numbers
+                    const value = e.target.value
+                    if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 0)) {
+                      setHpAdjustment(value)
+                    }
+                  }}
                   className="w-16 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded text-center"
+                  min="0"
+                  step="1"
                 />
               </div>
               <div className="flex gap-2 justify-center">
