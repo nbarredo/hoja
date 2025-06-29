@@ -5,71 +5,84 @@ interface SkillsTabProps {
   characterData: CharacterData
 }
 
-// All D&D 5e skills with their associated abilities
+// All D&D 5e skills with their associated abilities and JSON keys
 const allSkills = [
-  { name: 'Acrobatics', ability: 'dexterity' },
-  { name: 'Animal Handling', ability: 'wisdom' },
-  { name: 'Arcana', ability: 'intelligence' },
-  { name: 'Athletics', ability: 'strength' },
-  { name: 'Deception', ability: 'charisma' },
-  { name: 'History', ability: 'intelligence' },
-  { name: 'Insight', ability: 'wisdom' },
-  { name: 'Intimidation', ability: 'charisma' },
-  { name: 'Investigation', ability: 'intelligence' },
-  { name: 'Medicine', ability: 'wisdom' },
-  { name: 'Nature', ability: 'intelligence' },
-  { name: 'Perception', ability: 'wisdom' },
-  { name: 'Performance', ability: 'charisma' },
-  { name: 'Persuasion', ability: 'charisma' },
-  { name: 'Religion', ability: 'intelligence' },
-  { name: 'Sleight of Hand', ability: 'dexterity' },
-  { name: 'Stealth', ability: 'dexterity' },
-  { name: 'Survival', ability: 'wisdom' }
+  { name: 'Acrobatics', ability: 'dexterity', jsonKey: 'acrobatics' },
+  { name: 'Animal Handling', ability: 'wisdom', jsonKey: 'animalHandling' },
+  { name: 'Arcana', ability: 'intelligence', jsonKey: 'arcana' },
+  { name: 'Athletics', ability: 'strength', jsonKey: 'athletics' },
+  { name: 'Deception', ability: 'charisma', jsonKey: 'deception' },
+  { name: 'History', ability: 'intelligence', jsonKey: 'history' },
+  { name: 'Insight', ability: 'wisdom', jsonKey: 'insight' },
+  { name: 'Intimidation', ability: 'charisma', jsonKey: 'intimidation' },
+  { name: 'Investigation', ability: 'intelligence', jsonKey: 'investigation' },
+  { name: 'Medicine', ability: 'wisdom', jsonKey: 'medicine' },
+  { name: 'Nature', ability: 'intelligence', jsonKey: 'nature' },
+  { name: 'Perception', ability: 'wisdom', jsonKey: 'perception' },
+  { name: 'Performance', ability: 'charisma', jsonKey: 'performance' },
+  { name: 'Persuasion', ability: 'charisma', jsonKey: 'persuasion' },
+  { name: 'Religion', ability: 'intelligence', jsonKey: 'religion' },
+  { name: 'Sleight of Hand', ability: 'dexterity', jsonKey: 'sleightOfHand' },
+  { name: 'Stealth', ability: 'dexterity', jsonKey: 'stealth' },
+  { name: 'Survival', ability: 'wisdom', jsonKey: 'survival' }
 ]
 
 export function SkillsTabComponent({ characterData }: SkillsTabProps) {
   // Create a map of character's skills for quick lookup
   const characterSkills = new Map()
-  characterData.skills?.forEach(skill => {
-    characterSkills.set(skill.name.toLowerCase(), {
-      value: skill.value,
-      expertise: skill.expertise || false
+  
+  // Handle skills being an object instead of an array
+  if (characterData.skills && typeof characterData.skills === 'object') {
+    Object.entries(characterData.skills).forEach(([skillName, skillData]: [string, any]) => {
+      characterSkills.set(skillName.toLowerCase(), {
+        value: skillData.bonus || skillData.value || 0,
+        expertise: skillData.expertise || false,
+        proficient: skillData.proficient || false,
+        notes: skillData.notes
+      })
     })
-  })
+  }
 
   // Calculate proficiency bonus from additional info or default to +8
   const proficiencyBonus = parseInt(characterData.additionalInfo?.proficiencyBonus?.replace('+', '') || '8')
 
   // Generate all skills with calculated bonuses
   const allSkillsWithBonuses = allSkills.map(skill => {
-    const characterSkill = characterSkills.get(skill.name.toLowerCase())
+    const characterSkill = characterSkills.get(skill.jsonKey.toLowerCase())
     const abilityModifier = characterData.abilities?.[skill.ability as keyof typeof characterData.abilities]?.modifier || 0
     
-    // Special case: Arcana has expertise (double proficiency)
-    const hasExpertise = skill.name === 'Arcana' || characterSkill?.expertise || false
-    
-    // If character has this skill proficiently, use their value
-    // Otherwise calculate base ability modifier with proficiency/expertise
-    let skillBonus: number
-    let isProficient = false
-    
-    if (characterSkill !== undefined) {
-      skillBonus = characterSkill.value
-      isProficient = true
-    } else if (skill.name === 'Arcana') {
-      // Arcana gets expertise by default
-      skillBonus = abilityModifier + (proficiencyBonus * 2)
-      isProficient = true
-    } else {
-      skillBonus = abilityModifier
+    // If character has this skill defined in the JSON, use those values
+    if (characterSkill && characterSkill.value !== undefined) {
+      return {
+        name: skill.name,
+        ability: skill.ability,
+        bonus: characterSkill.value,
+        proficient: characterSkill.proficient,
+        expertise: characterSkill.expertise || skill.name === 'Arcana', // Arcana gets expertise
+        abilityModifier,
+        notes: characterSkill.notes
+      }
     }
     
+    // For Arcana, give it expertise even if not in character data
+    if (skill.name === 'Arcana') {
+      return {
+        name: skill.name,
+        ability: skill.ability,
+        bonus: abilityModifier + (proficiencyBonus * 2), // Expertise = double proficiency
+        proficient: true,
+        expertise: true,
+        abilityModifier
+      }
+    }
+    
+    // Otherwise calculate base ability modifier (not proficient)
     return {
       name: skill.name,
       ability: skill.ability,
-      bonus: skillBonus,
-      isProficient,
-      hasExpertise,
+      bonus: abilityModifier,
+      proficient: false,
+      expertise: false,
       abilityModifier
     }
   })
@@ -89,9 +102,9 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
               <div 
                 key={skill.name} 
                 className={`flex justify-between items-center py-3 px-4 rounded border ${
-                  skill.hasExpertise
+                  skill.expertise
                     ? 'border-purple-500 bg-purple-900/30'
-                    : skill.isProficient 
+                    : skill.proficient 
                     ? 'border-blue-600 bg-blue-900/20' 
                     : 'border-gray-700 bg-gray-800'
                 }`}
@@ -100,10 +113,10 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
                   <span className="text-white font-medium">{skill.name}</span>
                   <span className="text-xs text-gray-400 uppercase">
                     {skill.ability.slice(0, 3)}
-                    {skill.hasExpertise && (
+                    {skill.expertise && (
                       <span className="ml-2 text-purple-300">◆◆ EXPERTISE</span>
                     )}
-                    {skill.isProficient && !skill.hasExpertise && (
+                    {skill.proficient && !skill.expertise && (
                       <span className="ml-2 text-blue-300">● PROFICIENT</span>
                     )}
                   </span>
@@ -130,19 +143,19 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
               <div className="text-3xl font-bold text-blue-300 mb-1">
-                {allSkillsWithBonuses.filter(s => s.isProficient && !s.hasExpertise).length}
+                {allSkillsWithBonuses.filter(s => s.proficient && !s.expertise).length}
               </div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Proficient Skills</div>
             </div>
             <div className="text-center p-4 border border-purple-500 rounded bg-purple-900/20">
               <div className="text-3xl font-bold text-purple-300 mb-1">
-                {allSkillsWithBonuses.filter(s => s.hasExpertise).length}
+                {allSkillsWithBonuses.filter(s => s.expertise).length}
               </div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Expertise Skills</div>
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
               <div className="text-3xl font-bold text-gray-400 mb-1">
-                {allSkillsWithBonuses.filter(s => !s.isProficient).length}
+                {allSkillsWithBonuses.filter(s => !s.proficient).length}
               </div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Non-Proficient Skills</div>
             </div>

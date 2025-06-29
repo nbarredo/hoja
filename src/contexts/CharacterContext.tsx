@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { velsirionData } from '../lib/database';
 
 export interface SpellSlot {
   total: number;
@@ -53,7 +52,8 @@ const calculateMaxHP = () => {
   const baseHP = 667;
   const corazonDeJinLong = 2000;
   const collarDeRyu = 500;
-  const artifactCount = velsirionData.equipment.artifacts.length;
+  // Using a default artifact count since this context is deprecated
+  const artifactCount = 10; // Default value
   const hambreDePoder = artifactCount * 100;
   
   return baseHP + corazonDeJinLong + collarDeRyu + hambreDePoder;

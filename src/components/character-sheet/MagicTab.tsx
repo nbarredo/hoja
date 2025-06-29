@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useGameState } from '@/hooks/useGameState'
@@ -7,8 +8,25 @@ interface MagicTabProps {
   characterData: CharacterData
 }
 
-export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
+export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
   const { characterData, state, actions, isLoading, error } = useGameState()
+  
+  // Local state for immediate UI updates
+  const [localSpellSlots, setLocalSpellSlots] = useState<any>({})
+  const [localAbilities, setLocalAbilities] = useState<any>({})
+
+  // Sync local state with global state when it changes
+  useEffect(() => {
+    if (state?.spellSlots) {
+      setLocalSpellSlots(state.spellSlots)
+    }
+  }, [state?.spellSlots])
+
+  useEffect(() => {
+    if (state?.longRestAbilities) {
+      setLocalAbilities(state.longRestAbilities)
+    }
+  }, [state?.longRestAbilities])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -18,23 +36,59 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
     return <div>Error: {error}</div>
   }
 
-  if (!state || !characterData) {
+  if (!state || !characterData || !localSpellSlots || Object.keys(localSpellSlots).length === 0) {
     return <div>No game state available</div>
   }
 
-  const handleSpellSlotClick = (level: string) => {
-    console.log('Spell slot clicked:', level, 'Current state:', state.spellSlots[level])
-    actions.useSpellSlot(level)
+  const handleSpellSlotClick = async (level: string) => {
+    console.log('Spell slot clicked:', level, 'Current state before:', localSpellSlots[level])
+    
+    // Update local state immediately for instant UI feedback
+    const currentSlot = localSpellSlots[level]
+    if (currentSlot && currentSlot.used < currentSlot.total) {
+      setLocalSpellSlots(prev => ({
+        ...prev,
+        [level]: { ...currentSlot, used: currentSlot.used + 1 }
+      }))
+      
+      // Sync with database
+      await actions.useSpellSlot(level)
+    }
+    console.log('Spell slot clicked complete:', level)
   }
 
-  const handleSpellSlotRestore = (level: string) => {
-    console.log('Spell slot restore:', level, 'Current state:', state.spellSlots[level])
-    actions.restoreSpellSlot(level)
+  const handleSpellSlotRestore = async (level: string) => {
+    console.log('Spell slot restore:', level, 'Current state before:', localSpellSlots[level])
+    
+    // Update local state immediately for instant UI feedback
+    const currentSlot = localSpellSlots[level]
+    if (currentSlot && currentSlot.used > 0) {
+      setLocalSpellSlots(prev => ({
+        ...prev,
+        [level]: { ...currentSlot, used: currentSlot.used - 1 }
+      }))
+      
+      // Sync with database
+      await actions.restoreSpellSlot(level)
+    }
+    console.log('Spell slot restore complete:', level)
   }
 
-  const handleAbilityUse = (abilityName: string) => {
-    console.log('Ability used:', abilityName, 'Current state:', state.longRestAbilities[abilityName])
-    actions.useAbility(abilityName)
+  const handleAbilityUse = async (abilityName: string) => {
+    console.log('Ability used:', abilityName, 'Current state before:', localAbilities[abilityName])
+    
+    // Update local state immediately for instant UI feedback
+    const currentAbility = localAbilities[abilityName]
+    if (currentAbility && currentAbility.used < currentAbility.total) {
+      setLocalAbilities(prev => ({
+        ...prev,
+        [abilityName]: { ...currentAbility, used: currentAbility.used + 1 }
+      }))
+      
+      // Sync with database
+      await actions.useAbility(abilityName)
+    }
+    console.log('Ability use complete:', abilityName)
   }
 
   return (
@@ -46,15 +100,17 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-11 gap-3">
-            {Object.entries(state.spellSlots).map(([level, slot]) => (
-              <div key={level} className="text-center p-3 border border-gray-700 rounded bg-gray-800">
+            {Object.entries(localSpellSlots).map(([level, slot]) => {
+              const typedSlot = slot as { used: number; total: number }
+              return (
+              <div key={`spell-level-${level}`} className="text-center p-3 border border-gray-700 rounded bg-gray-800">
                 <div className="text-xs text-gray-300 uppercase font-medium mb-2">Level {level}</div>
                 <div className="flex flex-wrap gap-1 justify-center mb-2">
-                  {Array.from({ length: slot.total }, (_, index) => (
+                  {Array.from({ length: typedSlot.total }, (_, index) => (
                     <button
-                      key={index}
+                      key={`${level}-${index}`}
                       onClick={() => {
-                        if (index < slot.used) {
+                        if (index < typedSlot.used) {
                           // Restore this slot
                           handleSpellSlotRestore(level)
                         } else {
@@ -63,19 +119,20 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
                         }
                       }}
                       className={`w-7 h-7 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
-                        index < slot.used
+                        index < typedSlot.used
                           ? 'bg-gray-600 border-gray-500 hover:bg-gray-500' // Used
                           : 'bg-blue-600 border-blue-500 hover:bg-blue-700 hover:border-blue-400' // Available
                       }`}
-                      title={index < slot.used ? 'Click to restore' : 'Click to use'}
+                      title={index < typedSlot.used ? 'Click to restore' : 'Click to use'}
                     />
                   ))}
                 </div>
                 <div className="text-sm text-white">
-                  {slot.total - slot.used}/{slot.total}
+                  {typedSlot.total - typedSlot.used}/{typedSlot.total}
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </CardContent>
       </Card>
@@ -88,21 +145,21 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">{characterData.spellcasting?.saveDC}</div>
+              <div className="text-3xl font-bold text-white mb-1">{(characterData as any).spellcasting?.spellSaveDC || 'N/A'}</div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Spell Save DC</div>
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">+{characterData.spellcasting?.attackBonus}</div>
+              <div className="text-3xl font-bold text-white mb-1">+{(characterData as any).spellcasting?.spellAttackBonus || 'N/A'}</div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Spell Attack</div>
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">+{characterData.spellcasting?.counterspellBonus}</div>
+              <div className="text-3xl font-bold text-white mb-1">+{(characterData as any).spellcasting?.counterspellBonus || 'N/A'}</div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Counterspell</div>
             </div>
           </div>
-          {characterData.spellcasting?.note && (
+          {(characterData as any).spellcasting?.specialNotes && (
             <div className="mt-4 p-3 bg-gray-800 border border-gray-700 rounded">
-              <p className="text-sm text-gray-300 font-medium">{characterData.spellcasting.note}</p>
+              <p className="text-sm text-gray-300 font-medium">{(characterData as any).spellcasting.specialNotes}</p>
             </div>
           )}
         </CardContent>
@@ -115,15 +172,17 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(state.longRestAbilities).map(([abilityName, ability]) => (
-              <div key={abilityName} className="p-4 border border-gray-700 rounded bg-gray-800">
+            {Object.entries(localAbilities).map(([abilityName, ability]) => {
+              const typedAbility = ability as { used: number; total: number }
+              return (
+              <div key={`ability-${abilityName}`} className="p-4 border border-gray-700 rounded bg-gray-800">
                 <h4 className="font-bold text-white text-sm mb-2">{abilityName}</h4>
                 <div className="flex flex-wrap gap-1 mb-2">
-                  {Array.from({ length: ability.total }, (_, index) => (
+                  {Array.from({ length: typedAbility.total }, (_, index) => (
                     <button
-                      key={index}
+                      key={`${abilityName}-${index}`}
                       onClick={() => {
-                        if (index < ability.used) {
+                        if (index < typedAbility.used) {
                           // Can't restore individual uses, only via long rest
                           return
                         } else {
@@ -131,19 +190,20 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
                         }
                       }}
                       className={`w-5 h-5 rounded-md border-2 transition-all duration-200 shadow-sm ${
-                        index < ability.used
+                        index < typedAbility.used
                           ? 'bg-gray-600 border-gray-500 cursor-not-allowed' // Used
                           : 'bg-green-600 border-green-500 hover:bg-green-700 hover:border-green-400 cursor-pointer' // Available
                       }`}
-                      title={index < ability.used ? 'Used (restore with long rest)' : 'Click to use'}
+                      title={index < typedAbility.used ? 'Used (restore with long rest)' : 'Click to use'}
                     />
                   ))}
                 </div>
                 <div className="text-xs text-white">
-                  {ability.total - ability.used}/{ability.total} remaining
+                  {typedAbility.total - typedAbility.used}/{typedAbility.total} remaining
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </CardContent>
       </Card>
@@ -155,7 +215,7 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
         </CardHeader>
         <CardContent className="p-6">
           <div className="space-y-4">
-            {characterData.attacks?.map((attack, index) => (
+            {characterData.attacks?.meleeAttacks?.map((attack: any, index: number) => (
               <div key={index} className="border border-gray-700 rounded p-4 bg-gray-800">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-bold text-white text-lg">{attack.name}</h4>
@@ -172,9 +232,16 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
                     )}
                   </div>
                 </div>
-                <p className="text-gray-200 font-medium">{attack.description}</p>
-                {attack.uses && (
-                  <div className="mt-2 text-sm text-gray-300 font-medium">Uses: {attack.uses}</div>
+                <p className="text-gray-200 font-medium">{attack.damageType}</p>
+                {attack.special && (
+                  <div className="mt-2">
+                    <div className="text-sm text-gray-300 font-medium">Special:</div>
+                    <ul className="text-sm text-gray-400 ml-4">
+                      {attack.special.map((specialEffect: string, idx: number) => (
+                        <li key={idx} className="list-disc">{specialEffect}</li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             ))}
@@ -183,50 +250,43 @@ export function MagicTab({ characterData: propCharacterData }: MagicTabProps) {
       </Card>
 
       {/* Permanent Spells */}
-      {characterData.features && (
+      {characterData.permanentSpells && Array.isArray(characterData.permanentSpells) && (
         <Card className="bg-gray-900 border-gray-700">
           <CardHeader className="border-b border-gray-700">
             <CardTitle className="text-xl font-bold text-white">Permanent Active Spells</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="space-y-4">
-              {characterData.features
-                .filter(category => category.category === "Permanent Active Spells")
-                .map((category, categoryIndex) => (
-                  <div key={categoryIndex}>
-                    {category.abilities.map((spell, spellIndex) => (
-                      <div key={spellIndex} className="border border-gray-700 rounded p-4 bg-gray-800">
-                        <h4 className="font-bold text-white text-lg mb-2">{spell.name}</h4>
-                        <p className="text-gray-200 font-medium">{spell.description}</p>
-                      </div>
+              {characterData.permanentSpells.map((spell: any, spellIndex: number) => (
+                <div key={spellIndex} className="border border-gray-700 rounded p-4 bg-gray-800">
+                  <h4 className="font-bold text-white text-lg mb-2">{spell.name}</h4>
+                  <p className="text-gray-300 text-sm mb-2">Duration: {spell.duration}</p>
+                  <div className="space-y-1">
+                    {spell.effects?.map((effect: string, effectIndex: number) => (
+                      <p key={effectIndex} className="text-gray-200 text-sm">• {effect}</p>
                     ))}
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       )}
 
       {/* Ambarios Magic Techniques */}
-      {characterData.features && (
+      {characterData.ambariosTraining && Array.isArray(characterData.ambariosTraining) && (
         <Card className="bg-gray-900 border-gray-700">
           <CardHeader className="border-b border-gray-700">
             <CardTitle className="text-xl font-bold text-white">Ambarios Magic Techniques</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {characterData.features
-                .filter(category => category.category === "Ambarios Magic Techniques")
-                .map((category, categoryIndex) => (
-                  <div key={categoryIndex} className="space-y-3">
-                    {category.abilities.map((technique, techniqueIndex) => (
-                      <div key={techniqueIndex} className="border border-gray-700 rounded p-3 bg-gray-800">
-                        <h5 className="font-bold text-white text-sm mb-1">{technique.name}</h5>
-                        <p className="text-gray-200 text-sm">{technique.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+              {characterData.ambariosTraining.map((technique: any, techniqueIndex: number) => (
+                <div key={techniqueIndex} className="border border-gray-700 rounded p-3 bg-gray-800">
+                  <h5 className="font-bold text-white text-sm mb-1">{technique.name}</h5>
+                  <p className="text-gray-200 text-sm">{technique.description}</p>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>

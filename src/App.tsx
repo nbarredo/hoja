@@ -6,6 +6,7 @@ import { MagicTab } from '@/components/character-sheet/MagicTab'
 import { MagicItemsTab } from '@/components/character-sheet/MagicItemsTab'
 import { DragonPowersTab } from '@/components/character-sheet/DragonPowersTab'
 import { DefensesTab } from '@/components/character-sheet/DefensesTab'
+import { ShieldsTab } from '@/components/character-sheet/ShieldsTab'
 
 function App() {
   const { characterData, actions, isLoading, error } = useGameState()
@@ -101,6 +102,12 @@ function App() {
             >
               Defenses
             </TabsTrigger>
+            <TabsTrigger 
+              value="shields" 
+              className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-300 hover:text-white transition-colors"
+            >
+              Shields
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="main">
@@ -125,6 +132,10 @@ function App() {
 
           <TabsContent value="defenses">
             <DefensesTab characterData={characterData} />
+          </TabsContent>
+
+          <TabsContent value="shields">
+            <ShieldsTab characterData={characterData} />
           </TabsContent>
         </Tabs>
       </div>

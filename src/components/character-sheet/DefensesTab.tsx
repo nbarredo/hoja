@@ -1,15 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { useGameState } from '@/hooks/useGameState'
-import { velsirionData } from '@/lib/database'
 import type { CharacterData } from './types'
 
 interface DefensesTabProps {
   characterData: CharacterData
 }
 
-export function DefensesTab({ characterData: propCharacterData }: DefensesTabProps) {
+export function DefensesTab({ characterData: _propCharacterData }: DefensesTabProps) {
   const { characterData, state, isLoading, error } = useGameState()
 
   if (isLoading) {
@@ -24,39 +22,13 @@ export function DefensesTab({ characterData: propCharacterData }: DefensesTabPro
     return <div>No game state available</div>
   }
 
+  // Type cast to access actual JSON structure
+  const immunities = (characterData as any).immunities;
+  const resistances = (characterData as any).resistances;
+  const regeneration = (characterData as any).regeneration;
+
   return (
     <div className="space-y-6">
-      {/* Shields */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Shields</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            {Object.entries(state.shields).map(([shieldType, shield]) => (
-              <div key={shieldType} className="border border-gray-700 rounded p-4 bg-gray-800">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-lg text-white font-bold capitalize">
-                    {shieldType.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <span className="text-2xl font-bold text-white">
-                    {shield.current}/{shield.points}
-                  </span>
-                </div>
-                <Progress 
-                  value={(shield.current / shield.points) * 100} 
-                  className="h-3 bg-gray-900" 
-                />
-                <div className="text-sm text-gray-300 mt-2">
-                  Source: {shield.source}
-                  {shield.special && <span className="text-yellow-400 ml-2">({shield.special})</span>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Special Defensive Abilities */}
       <Card className="bg-gray-900 border-gray-700">
         <CardHeader className="border-b border-gray-700">
@@ -84,16 +56,30 @@ export function DefensesTab({ characterData: propCharacterData }: DefensesTabPro
         </CardHeader>
         <CardContent className="p-6">
           <div className="space-y-4">
-            <div>
-              <h4 className="text-lg font-bold text-white mb-3">Damage Types & Conditions</h4>
-              <div className="flex flex-wrap gap-2">
-                {characterData.immunities?.map((immunity, index) => (
-                  <Badge key={index} variant="outline" className="border-red-600 text-red-200 bg-red-900/20 font-bold">
-                    {immunity}
-                  </Badge>
-                ))}
+            {immunities?.damageTypes && (
+              <div>
+                <h4 className="text-lg font-bold text-white mb-3">Damage Types</h4>
+                <div className="flex flex-wrap gap-2">
+                  {immunities.damageTypes.map((immunity: string, index: number) => (
+                    <Badge key={index} variant="outline" className="border-red-600 text-red-200 bg-red-900/20 font-bold">
+                      {immunity}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+            {immunities?.conditions && (
+              <div>
+                <h4 className="text-lg font-bold text-white mb-3">Conditions</h4>
+                <div className="flex flex-wrap gap-2">
+                  {immunities.conditions.map((condition: string, index: number) => (
+                    <Badge key={index} variant="outline" className="border-yellow-600 text-yellow-200 bg-yellow-900/20 font-bold">
+                      {condition}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -105,7 +91,7 @@ export function DefensesTab({ characterData: propCharacterData }: DefensesTabPro
         </CardHeader>
         <CardContent className="p-6">
           <div className="space-y-3">
-            {characterData.resistances?.map((resistance, index) => (
+            {resistances?.special?.map((resistance: string, index: number) => (
               <div key={index} className="border border-gray-700 rounded p-3 bg-gray-800">
                 <span className="text-white font-medium">{resistance}</span>
               </div>
@@ -120,8 +106,23 @@ export function DefensesTab({ characterData: propCharacterData }: DefensesTabPro
           <CardTitle className="text-xl font-bold text-white">Regeneration</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="border border-gray-700 rounded p-4 bg-gray-800">
-            <p className="text-white font-medium">{characterData.regeneration}</p>
+          <div className="space-y-3">
+            {regeneration && (
+              <>
+                <div className="border border-gray-700 rounded p-4 bg-gray-800">
+                  <h4 className="font-bold text-white mb-2">In Forest</h4>
+                  <p className="text-white font-medium">{regeneration.forest}</p>
+                </div>
+                <div className="border border-gray-700 rounded p-4 bg-gray-800">
+                  <h4 className="font-bold text-white mb-2">Near Trees</h4>
+                  <p className="text-white font-medium">{regeneration.nearTrees}</p>
+                </div>
+                <div className="border border-gray-700 rounded p-4 bg-gray-800">
+                  <h4 className="font-bold text-white mb-2">Otherwise</h4>
+                  <p className="text-white font-medium">{regeneration.otherwise}</p>
+                </div>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -135,17 +136,17 @@ export function DefensesTab({ characterData: propCharacterData }: DefensesTabPro
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border border-gray-700 rounded p-4 bg-gray-800">
               <h4 className="font-bold text-white text-lg mb-2">Armor Class</h4>
-              <p className="text-white font-bold text-2xl">{velsirionData.combat.armorClass.total}</p>
+              <p className="text-white font-bold text-2xl">{(characterData as any).combat?.armorClass?.total || 'N/A'}</p>
               <div className="text-sm text-gray-300 mt-2">
-                Natural Armor: {velsirionData.combat.armorClass.breakdown.naturalArmor} + 
-                Collar: {velsirionData.combat.armorClass.breakdown.collarDeRyu} + 
-                Korlak: {velsirionData.combat.armorClass.breakdown.korlakBonus} + 
-                Ring: {velsirionData.combat.armorClass.breakdown.anilloDeFuriell}
+                Natural Armor: {(characterData as any).combat?.armorClass?.breakdown?.naturalArmor || 'N/A'} + 
+                Collar: {(characterData as any).combat?.armorClass?.breakdown?.collarDeRyu || 'N/A'} + 
+                Korlak: {(characterData as any).combat?.armorClass?.breakdown?.korlakBonus || 'N/A'} + 
+                Ring: {(characterData as any).combat?.armorClass?.breakdown?.anilloDeFuriell || 'N/A'}
               </div>
             </div>
             <div className="border border-gray-700 rounded p-4 bg-gray-800">
               <h4 className="font-bold text-white text-lg mb-2">Proficiency Bonus</h4>
-              <p className="text-white font-bold text-2xl">+{velsirionData.character.proficiencyBonus}</p>
+              <p className="text-white font-bold text-2xl">+{(characterData as any).character?.proficiencyBonus || 'N/A'}</p>
             </div>
           </div>
         </CardContent>

@@ -1,17 +1,15 @@
 import { useState, useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useGameState } from '@/hooks/useGameState'
-import { velsirionData } from '@/lib/database'
 import type { CharacterData } from './types'
 
 interface BasicStatsTabProps {
   characterData: CharacterData
 }
 
-export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTabProps) {
+export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsTabProps) {
   const { characterData, state, actions, isLoading, error } = useGameState()
   const [hpAdjustment, setHpAdjustment] = useState('')
-  const [shieldAdjustments, setShieldAdjustments] = useState<{[key: string]: string}>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   if (isLoading) {
@@ -26,6 +24,21 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
     return <div>No game state available</div>
   }
 
+  // Get ability scores from the correct path in JSON
+  const abilityScores = (characterData as any).abilityScores;
+  const combat = (characterData as any).combat;
+
+  // Helper function to format speed object
+  const formatSpeed = (speedObj: any) => {
+    if (typeof speedObj === 'string') return speedObj;
+    const speedParts = [];
+    if (speedObj.walking) speedParts.push(speedObj.walking);
+    if (speedObj.burrow) speedParts.push(`burrow ${speedObj.burrow}`);
+    if (speedObj.flying) speedParts.push(`fly ${speedObj.flying}`);
+    if (speedObj.swimming) speedParts.push(`swim ${speedObj.swimming}`);
+    return speedParts.join(', ');
+  }
+
   const handleHPChange = (amount: number, isDamage: boolean) => {
     if (isDamage) {
       actions.damageHP(amount)
@@ -33,15 +46,6 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
       actions.healHP(amount)
     }
     setHpAdjustment('')
-  }
-
-  const handleShieldChange = (shieldType: string, amount: number, isDamage: boolean) => {
-    if (isDamage) {
-      actions.damageShield(shieldType, amount)
-    } else {
-      actions.healShield(shieldType, amount)
-    }
-    setShieldAdjustments(prev => ({ ...prev, [shieldType]: '' }))
   }
 
   const handleExportData = async () => {
@@ -82,7 +86,7 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {characterData.abilities && Object.entries(characterData.abilities).map(([ability, data]) => (
+            {abilityScores && Object.entries(abilityScores).map(([ability, data]: [string, any]) => (
               <Card key={ability} className="bg-gray-800 border-gray-600">
                 <CardContent className="p-4 text-center">
                   <div className="text-xs text-gray-300 uppercase tracking-widest mb-2 font-bold">
@@ -107,7 +111,7 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">{characterData.combat.ac}</div>
+              <div className="text-3xl font-bold text-white mb-1">{combat?.armorClass?.total || 'N/A'}</div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Armor Class</div>
             </div>
             
@@ -149,75 +153,21 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
             </div>
             
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">+{characterData.combat.initiative}</div>
+              <div className="text-3xl font-bold text-white mb-1">+{combat?.initiative || 'N/A'}</div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Initiative</div>
             </div>
             <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-lg font-bold text-white mb-1">{characterData.combat.speed}</div>
+              <div className="text-lg font-bold text-white mb-1">
+                {combat?.speed ? formatSpeed(combat.speed) : 'N/A'}
+              </div>
               <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Speed</div>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Shields */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Shields</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {Object.entries(state.shields).map(([shieldType, shield]) => (
-              <div key={shieldType} className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-                <div className="text-2xl font-bold text-white mb-1">
-                  {shield.current}/{shield.points}
-                </div>
-                <div className="text-xs text-gray-300 uppercase tracking-wider font-medium mb-1">
-                  {shieldType.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                </div>
-                <div className="text-xs text-gray-400 mb-3">{shield.source}</div>
-                {shield.special && (
-                  <div className="text-xs text-yellow-400 mb-3">{shield.special}</div>
-                )}
-                <div className="flex justify-center mb-3">
-                  <input
-                    type="text"
-                    placeholder="Amount"
-                    value={shieldAdjustments[shieldType] || ''}
-                    onChange={(e) => setShieldAdjustments(prev => ({ ...prev, [shieldType]: e.target.value }))}
-                    className="w-16 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded text-center"
-                  />
-                </div>
-                <div className="flex gap-2 justify-center">
-                  <button
-                    onClick={() => {
-                      const amount = parseInt(shieldAdjustments[shieldType] || '0')
-                      if (!isNaN(amount)) handleShieldChange(shieldType, amount, true)
-                    }}
-                    className="px-3 py-1 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-200 shadow-sm"
-                  >
-                    − Damage
-                  </button>
-                  {shield.canBeHealed && (
-                    <button
-                      onClick={() => {
-                        const amount = parseInt(shieldAdjustments[shieldType] || '0')
-                        if (!isNaN(amount)) handleShieldChange(shieldType, amount, false)
-                      }}
-                      className="px-3 py-1 text-xs font-medium bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors duration-200 shadow-sm"
-                    >
-                      + Heal
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Legendary Resistances */}
-      {characterData.legendaryResistances && (
+      {state.legendaryResistances && (
         <Card className="bg-gray-900 border-gray-700">
           <CardHeader className="border-b border-gray-700">
             <CardTitle className="text-xl font-bold text-white">Legendary Resistances</CardTitle>
@@ -250,17 +200,11 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
                 </div>
               </div>
               <div className="space-y-3">
-                <h4 className="font-bold text-white text-lg">Sources</h4>
-                {characterData.legendaryResistances.sources.map((source, index) => (
-                  <div key={index} className="flex items-center py-2 px-3 border border-gray-700 rounded bg-gray-800">
-                    <div className="w-3 h-3 bg-yellow-400 rounded-full mr-3"></div>
-                    <span className="text-white font-medium">{source}</span>
-                  </div>
-                ))}
-                <div className="mt-4 p-3 border border-gray-700 rounded bg-gray-800">
+                <h4 className="font-bold text-white text-lg">Legendary Resistance</h4>
+                <div className="border border-gray-700 rounded p-4 bg-gray-800">
                   <div className="text-xs text-gray-400 mb-1">LEGENDARY RESISTANCE</div>
                   <div className="text-sm text-gray-300">
-                    If you fail a saving throw, you can choose to succeed instead. You can use this feature {characterData.legendaryResistances.total} times per day.
+                    If you fail a saving throw, you can choose to succeed instead. You can use this feature {state.legendaryResistances.total} times per day.
                   </div>
                 </div>
               </div>
@@ -276,13 +220,13 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {characterData.saves?.map((save) => (
-              <div key={save.name} className="text-center p-4 border border-gray-700 rounded bg-gray-800">
+            {abilityScores && Object.entries(abilityScores).map(([ability, data]: [string, any]) => (
+              <div key={ability} className="text-center p-4 border border-gray-700 rounded bg-gray-800">
                 <div className="text-2xl font-bold text-white mb-1">
-                  {save.value >= 0 ? '+' : ''}{save.value}
+                  {data.savingThrow >= 0 ? '+' : ''}{data.savingThrow}
                 </div>
-                <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">{save.name}</div>
-                {save.proficient && (
+                <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">{ability.slice(0, 3)}</div>
+                {data.proficient && (
                   <div className="w-2 h-2 bg-white rounded-full mx-auto mt-2"></div>
                 )}
               </div>
@@ -303,11 +247,11 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
               <div className="space-y-2">
                 <div className="flex justify-between items-center py-2 px-3 border-b border-gray-800">
                   <span className="text-gray-300 font-medium">Proficiency Bonus</span>
-                  <span className="text-white font-bold">{characterData.additionalInfo?.proficiencyBonus}</span>
+                  <span className="text-white font-bold">+{(characterData as any).character?.proficiencyBonus || 'N/A'}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 px-3">
                   <span className="text-gray-300 font-medium">Artifacts HP Bonus</span>
-                  <span className="text-white font-bold">+{velsirionData.equipment.artifacts.length * 100} HP</span>
+                  <span className="text-white font-bold">+{((characterData as any).equipment?.artifacts?.length || 0) * 100} HP</span>
                 </div>
               </div>
             </div>
@@ -316,11 +260,11 @@ export function BasicStatsTab({ characterData: propCharacterData }: BasicStatsTa
               <div className="space-y-2">
                 <div className="py-2 px-3 border-b border-gray-800">
                   <span className="text-gray-300 font-medium">Senses: </span>
-                  <span className="text-white">{characterData.additionalInfo?.senses}</span>
+                  <span className="text-white">{(characterData as any).senses?.join(', ') || 'N/A'}</span>
                 </div>
                 <div className="py-2 px-3">
                   <span className="text-gray-300 font-medium">Languages: </span>
-                  <span className="text-white">{characterData.additionalInfo?.languages}</span>
+                  <span className="text-white">{(characterData as any).languages?.join(', ') || 'N/A'}</span>
                 </div>
               </div>
             </div>

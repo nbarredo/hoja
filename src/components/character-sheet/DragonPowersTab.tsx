@@ -6,38 +6,120 @@ interface DragonPowersTabProps {
 }
 
 export function DragonPowersTab({ characterData }: DragonPowersTabProps) {
+  // Transform the features object into an array format for filtering
+  const getAllFeatures = () => {
+    const featureCategories = []
+    
+    // Cast features to any to handle the mismatch between types and actual JSON structure
+    const features = characterData.features as any
+    
+    if (features) {
+      // Add racial traits
+      if (features.racialTraits) {
+        Object.entries(features.racialTraits).forEach(([categoryName, featuresArray]: [string, any]) => {
+          if (Array.isArray(featuresArray)) {
+            featureCategories.push({
+              category: `Racial Traits: ${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}`,
+              abilities: featuresArray
+            })
+          }
+        })
+      }
+      
+      // Add dragon abilities
+      if (features.dragonAbilities) {
+        featureCategories.push({
+          category: "Dragon Abilities",
+          abilities: features.dragonAbilities
+        })
+      }
+      
+      // Add class features
+      if (features.classFeatures) {
+        Object.entries(features.classFeatures).forEach(([className, featuresArray]: [string, any]) => {
+          if (Array.isArray(featuresArray)) {
+            featureCategories.push({
+              category: `${className.charAt(0).toUpperCase() + className.slice(1)} Features`,
+              abilities: featuresArray
+            })
+          }
+        })
+      }
+      
+      // Add path features
+      if (features.pathOfWhiteMoon) {
+        featureCategories.push({
+          category: "Path of White Moon",
+          abilities: features.pathOfWhiteMoon
+        })
+      }
+      
+      // Add training features
+      if (features.ambariosTraining) {
+        featureCategories.push({
+          category: "Ambarios Training",
+          abilities: features.ambariosTraining
+        })
+      }
+    }
+    
+    return featureCategories
+  }
+
+  const featureCategories = getAllFeatures()
+
   return (
     <div className="space-y-6">
       {/* Dragon Features */}
-      {characterData.features && (
+      {featureCategories.length > 0 && (
         <div className="space-y-6">
-          {characterData.features
-            .filter(category => 
-              category.category.includes("Dragon") || 
-              category.category.includes("Gem Greatwyrm") ||
-              category.category.includes("Chronurgy") ||
-              category.category.includes("El Camino de la Luna Blanca") ||
-              category.category.includes("Eyestone")
-            )
-            .map((category, categoryIndex) => (
-              <Card key={categoryIndex} className="bg-gray-900 border-gray-700">
-                <CardHeader className="border-b border-gray-700">
-                  <CardTitle className="text-xl font-bold text-white">{category.category}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    {category.abilities.map((ability, abilityIndex) => (
-                      <div key={abilityIndex} className="border border-gray-700 rounded p-4 bg-gray-800">
-                        <h4 className="font-bold text-white text-lg mb-2">{ability.name}</h4>
-                        <p className="text-gray-200 font-medium whitespace-pre-wrap">{ability.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          {featureCategories.map((category, categoryIndex) => (
+            <Card key={categoryIndex} className="bg-gray-900 border-gray-700">
+              <CardHeader className="border-b border-gray-700">
+                <CardTitle className="text-xl font-bold text-white">{category.category}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {category.abilities.map((ability: any, abilityIndex: number) => (
+                    <div key={abilityIndex} className="border border-gray-700 rounded p-4 bg-gray-800">
+                      <h4 className="font-bold text-white text-lg mb-2">{ability.name}</h4>
+                      <p className="text-gray-200 font-medium whitespace-pre-wrap">{ability.description}</p>
+                      {ability.uses && <p className="text-gray-400 text-sm mt-2">Uses: {ability.uses}</p>}
+                      {ability.source && <p className="text-gray-400 text-sm mt-1">Source: {ability.source}</p>}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
+
+      {/* Special Defensive Dragon Powers */}
+      <Card className="bg-gray-900 border-gray-700">
+        <CardHeader className="border-b border-gray-700">
+          <CardTitle className="text-xl font-bold text-white">Special Defensive Powers</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="space-y-4">
+            <div className="border border-gray-700 rounded p-4 bg-gray-800">
+              <h4 className="font-bold text-white text-lg mb-2">Multiattack Enhancement</h4>
+              <p className="text-gray-200">Enhanced multiattack capabilities from draconic heritage.</p>
+              <p className="text-gray-400 text-sm mt-2">Source: Dragon Powers</p>
+            </div>
+            <div className="border border-gray-700 rounded p-4 bg-gray-800">
+              <h4 className="font-bold text-white text-lg mb-2">Explosive Crystal</h4>
+              <p className="text-gray-200">Crystalline explosive abilities that can be deployed tactically.</p>
+              <p className="text-gray-400 text-sm mt-2">Source: Dragon Powers</p>
+            </div>
+            <div className="border border-gray-700 rounded p-4 bg-gray-800">
+              <h4 className="font-bold text-white text-lg mb-2">Psychic Power</h4>
+              <p className="text-gray-200">Enhanced psychic abilities from draconic mental prowess.</p>
+              <p className="text-gray-400 text-sm mt-2">Source: Dragon Powers</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Regeneration */}
       <Card className="bg-gray-900 border-gray-700">
