@@ -31,6 +31,7 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
 
   useEffect(() => {
     if (state?.legendaryResistances) {
+      console.log('Syncing legendary resistances from global state:', state.legendaryResistances)
       setLocalLegendaryResistances(state.legendaryResistances)
     }
   }, [state?.legendaryResistances])
@@ -43,9 +44,12 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
     return <div>Error: {error}</div>
   }
 
-  if (!state || !characterData || !localSpellSlots || Object.keys(localSpellSlots).length === 0) {
+  if (!state || !characterData) {
     return <div>No game state available</div>
   }
+
+  console.log('MagicTab render - Local legendary resistances:', localLegendaryResistances)
+  console.log('MagicTab render - Global legendary resistances:', state.legendaryResistances)
 
   const handleSpellSlotClick = async (level: string) => {
     console.log('Spell slot clicked:', level, 'Current state before:', localSpellSlots[level])
@@ -133,48 +137,50 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
   return (
     <div className="space-y-6">
       {/* Spell Slots */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Spell Slots</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-11 gap-3">
-            {Object.entries(localSpellSlots).map(([level, slot]) => {
-              const typedSlot = slot as { used: number; total: number }
-              return (
-              <div key={`spell-level-${level}`} className="text-center p-3 border border-gray-700 rounded bg-gray-800">
-                <div className="text-xs text-gray-300 uppercase font-medium mb-2">Level {level}</div>
-                <div className="flex flex-wrap gap-1 justify-center mb-2">
-                  {Array.from({ length: typedSlot.total }, (_, index) => (
-                    <button
-                      key={`${level}-${index}`}
-                      onClick={() => {
-                        if (index < typedSlot.used) {
-                          // Restore this slot
-                          handleSpellSlotRestore(level)
-                        } else {
-                          // Use this slot
-                          handleSpellSlotClick(level)
-                        }
-                      }}
-                      className={`w-7 h-7 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
-                        index < typedSlot.used
-                          ? 'bg-gray-600 border-gray-500 hover:bg-gray-500' // Used
-                          : 'bg-blue-600 border-blue-500 hover:bg-blue-700 hover:border-blue-400' // Available
-                      }`}
-                      title={index < typedSlot.used ? 'Click to restore' : 'Click to use'}
-                    />
-                  ))}
+      {localSpellSlots && Object.keys(localSpellSlots).length > 0 && (
+        <Card className="bg-gray-900 border-gray-700">
+          <CardHeader className="border-b border-gray-700">
+            <CardTitle className="text-xl font-bold text-white">Spell Slots</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-11 gap-3">
+              {Object.entries(localSpellSlots).map(([level, slot]) => {
+                const typedSlot = slot as { used: number; total: number }
+                return (
+                <div key={`spell-level-${level}`} className="text-center p-3 border border-gray-700 rounded bg-gray-800">
+                  <div className="text-xs text-gray-300 uppercase font-medium mb-2">Level {level}</div>
+                  <div className="flex flex-wrap gap-1 justify-center mb-2">
+                    {Array.from({ length: typedSlot.total }, (_, index) => (
+                      <button
+                        key={`${level}-${index}`}
+                        onClick={() => {
+                          if (index < typedSlot.used) {
+                            // Restore this slot
+                            handleSpellSlotRestore(level)
+                          } else {
+                            // Use this slot
+                            handleSpellSlotClick(level)
+                          }
+                        }}
+                        className={`w-7 h-7 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
+                          index < typedSlot.used
+                            ? 'bg-gray-600 border-gray-500 hover:bg-gray-500' // Used
+                            : 'bg-blue-600 border-blue-500 hover:bg-blue-700 hover:border-blue-400' // Available
+                        }`}
+                        title={index < typedSlot.used ? 'Click to restore' : 'Click to use'}
+                      />
+                    ))}
+                  </div>
+                  <div className="text-sm text-white">
+                    {typedSlot.total - typedSlot.used}/{typedSlot.total}
+                  </div>
                 </div>
-                <div className="text-sm text-white">
-                  {typedSlot.total - typedSlot.used}/{typedSlot.total}
-                </div>
-              </div>
-              )
-            })}
-          </div>
-        </CardContent>
-      </Card>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Spellcasting Stats */}
       <Card className="bg-gray-900 border-gray-700">
@@ -205,50 +211,52 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
       </Card>
 
       {/* Limited Use Abilities */}
-      <Card className="bg-gray-900 border-gray-700">
-        <CardHeader className="border-b border-gray-700">
-          <CardTitle className="text-xl font-bold text-white">Limited Use Abilities (Per Long Rest)</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(localAbilities).map(([abilityName, ability]) => {
-              const typedAbility = ability as { used: number; total: number }
-              return (
-              <div key={`ability-${abilityName}`} className="p-4 border border-gray-700 rounded bg-gray-800">
-                <h4 className="font-bold text-white text-sm mb-2">{abilityName}</h4>
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {Array.from({ length: typedAbility.total }, (_, index) => (
-                    <button
-                      key={`${abilityName}-${index}`}
-                      onClick={() => {
-                        if (index < typedAbility.used) {
-                          // Can't restore individual uses, only via long rest
-                          return
-                        } else {
-                          handleAbilityUse(abilityName)
-                        }
-                      }}
-                      className={`w-5 h-5 rounded-md border-2 transition-all duration-200 shadow-sm ${
-                        index < typedAbility.used
-                          ? 'bg-gray-600 border-gray-500 cursor-not-allowed' // Used
-                          : 'bg-green-600 border-green-500 hover:bg-green-700 hover:border-green-400 cursor-pointer' // Available
-                      }`}
-                      title={index < typedAbility.used ? 'Used (restore with long rest)' : 'Click to use'}
-                    />
-                  ))}
+      {localAbilities && Object.keys(localAbilities).length > 0 && (
+        <Card className="bg-gray-900 border-gray-700">
+          <CardHeader className="border-b border-gray-700">
+            <CardTitle className="text-xl font-bold text-white">Limited Use Abilities (Per Long Rest)</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(localAbilities).map(([abilityName, ability]) => {
+                const typedAbility = ability as { used: number; total: number }
+                return (
+                <div key={`ability-${abilityName}`} className="p-4 border border-gray-700 rounded bg-gray-800">
+                  <h4 className="font-bold text-white text-sm mb-2">{abilityName}</h4>
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {Array.from({ length: typedAbility.total }, (_, index) => (
+                      <button
+                        key={`${abilityName}-${index}`}
+                        onClick={() => {
+                          if (index < typedAbility.used) {
+                            // Can't restore individual uses, only via long rest
+                            return
+                          } else {
+                            handleAbilityUse(abilityName)
+                          }
+                        }}
+                        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 shadow-sm ${
+                          index < typedAbility.used
+                            ? 'bg-gray-600 border-gray-500 cursor-not-allowed' // Used
+                            : 'bg-green-600 border-green-500 hover:bg-green-700 hover:border-green-400 cursor-pointer' // Available
+                        }`}
+                        title={index < typedAbility.used ? 'Used (restore with long rest)' : 'Click to use'}
+                      />
+                    ))}
+                  </div>
+                  <div className="text-xs text-white">
+                    {typedAbility.total - typedAbility.used}/{typedAbility.total} remaining
+                  </div>
                 </div>
-                <div className="text-xs text-white">
-                  {typedAbility.total - typedAbility.used}/{typedAbility.total} remaining
-                </div>
-              </div>
-              )
-            })}
-          </div>
-        </CardContent>
-      </Card>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Legendary Resistances */}
-      <Card className="bg-gray-900 border-gray-700">
+      <Card key={`legendary-${localLegendaryResistances.used}-${localLegendaryResistances.total}`} className="bg-gray-900 border-gray-700">
         <CardHeader className="border-b border-gray-700">
           <CardTitle className="text-xl font-bold text-white">Legendary Resistances</CardTitle>
         </CardHeader>
@@ -264,14 +272,20 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
               </div>
               <div className="flex gap-2 justify-center">
                 <button
-                  onClick={handleLegendaryResistanceUse}
+                  onClick={() => {
+                    console.log('Legendary Resistance Use button clicked!', localLegendaryResistances)
+                    handleLegendaryResistanceUse()
+                  }}
                   disabled={localLegendaryResistances.used >= localLegendaryResistances.total}
                   className="px-4 py-2 text-sm font-medium bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
                 >
                   Use Resistance
                 </button>
                 <button
-                  onClick={handleLegendaryResistanceRestore}
+                  onClick={() => {
+                    console.log('Legendary Resistance Restore button clicked!', localLegendaryResistances)
+                    handleLegendaryResistanceRestore()
+                  }}
                   disabled={localLegendaryResistances.used <= 0}
                   className="px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors duration-200 shadow-sm"
                 >

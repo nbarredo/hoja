@@ -182,8 +182,16 @@ class DatabaseManager {
   }
 
   async longRest(): Promise<void> {
+    console.log('DatabaseManager.longRest() called')
     await this.initialize()
     const gameState = this.data!.gameState
+    
+    console.log('Long Rest - Before:', {
+      hp: `${gameState.hitPoints.current}/${gameState.hitPoints.maximum}`,
+      legendaryResistances: `${gameState.legendaryResistances.used}/${gameState.legendaryResistances.total}`,
+      spellSlots: Object.entries(gameState.spellSlots).map(([level, slot]) => `${level}: ${slot.used}/${slot.total}`),
+      abilities: Object.entries(gameState.longRestAbilities).map(([name, ability]) => `${name}: ${ability.used}/${ability.total}`)
+    })
     
     // Restore HP to maximum
     gameState.hitPoints.current = gameState.hitPoints.maximum
@@ -201,8 +209,16 @@ class DatabaseManager {
     // Restore legendary resistances
     gameState.legendaryResistances.used = 0
     
+    console.log('Long Rest - After:', {
+      hp: `${gameState.hitPoints.current}/${gameState.hitPoints.maximum}`,
+      legendaryResistances: `${gameState.legendaryResistances.used}/${gameState.legendaryResistances.total}`,
+      spellSlots: Object.entries(gameState.spellSlots).map(([level, slot]) => `${level}: ${slot.used}/${slot.total}`),
+      abilities: Object.entries(gameState.longRestAbilities).map(([name, ability]) => `${name}: ${ability.used}/${ability.total}`)
+    })
+    
     gameState.lastUpdated = Date.now()
     await this.save()
+    console.log('DatabaseManager.longRest() completed')
   }
 
   async exportData(): Promise<string> {

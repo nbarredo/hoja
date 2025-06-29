@@ -12,7 +12,15 @@ function App() {
   const { characterData, actions, isLoading, error } = useGameState()
 
   const handleLongRest = async () => {
-    await actions.longRest()
+    console.log('Long Rest button clicked!')
+    try {
+      await actions.longRest()
+      console.log('Long Rest completed successfully, refreshing page...')
+      // Refresh the page to reset all local state
+      window.location.reload()
+    } catch (error) {
+      console.error('Long Rest failed:', error)
+    }
   }
 
   if (isLoading) {
