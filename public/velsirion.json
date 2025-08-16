@@ -89,12 +89,6 @@
         "source": "Resistencia de la Torre Blanca",
         "canBeHealed": false,
         "special": "Indestructible"
-      },
-      "magicShield": {
-        "points": 500,
-        "current": 500,
-        "source": "Magic Shield",
-        "canBeHealed": false
       }
     },
     "initiative": 21,
@@ -173,7 +167,7 @@
       "3rd": { "total": 3, "used": 0 },
       "4th": { "total": 3, "used": 0 },
       "5th": { "total": 3, "used": 0 },
-      "6th": { "total": 3, "used": 0 },
+      "6th": { "total": 2, "used": 0 },
       "7th": { "total": 2, "used": 0 },
       "8th": { "total": 2, "used": 0 },
       "9th": { "total": 2, "used": 0 },
@@ -377,6 +371,24 @@
           "Rechazo del Mal - Evil creatures take 1000 Ultra Radiant damage",
           "Memoria Celestial - Pure souls can see Luha's sacrifice",
           "Corazón de Sello - Keeps Jhalu imprisoned"
+        ]
+      },
+      {
+        "name": "Ring of Abjuration",
+        "rarity": "Legendary",
+        "effects": [
+          "Salva Automáticamente (Swift - 1/R) - Automáticamente salva una TS a elección (1 Round)",
+          "Escudos Protegidos - Tus Escudos de Vida no pueden ser Arrollados aún por ataques que arrollen",
+          "Perteneció a un abjurador muy poderoso, que se perdió en otros planos"
+        ]
+      },
+      {
+        "name": "The Lucky Lucke",
+        "rarity": "Legendary",
+        "effects": [
+          "Suerte Extrema (3/Día) - Sacas 20 automáticamente en un D20, no gasta ninguna acción",
+          "Se le perdió a un Leprechaun dorado único que vaga por el mundo",
+          "Dicen que cazándolo se obtiene una suerte infinita"
         ]
       }
     ]
@@ -606,7 +618,6 @@
   "resistances": {
     "special": [
       "Resistencia Total (all damage types from Ring)",
-      "Magic Resistance (advantage on saves vs spells/magical effects)",
       "Super Resistencia Mágica (advantage on saves, magic damage halved)",
       "Inmunidad Mágica (6 on 1d6 resists spell damage/effects, not weapons)"
     ]
@@ -683,9 +694,6 @@
       },
       "towerShield": {
         "current": 1000
-      },
-      "magicShield": {
-        "current": 500
       }
     },
     "spellSlots": {
