@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(cp:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm build:*)"
     ],
     "defaultMode": "acceptEdits"
   }
