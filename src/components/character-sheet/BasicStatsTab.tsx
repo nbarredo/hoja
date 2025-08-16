@@ -190,7 +190,8 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                   className="shadow-sm"
                 >
                   − Damage
-                </Button>ton
+                </Button>
+                <Button
                   onClick={() => {
                     const amount = parseInt(hpAdjustment)
                     if (!isNaN(amount)) handleHPChange(amount, false)

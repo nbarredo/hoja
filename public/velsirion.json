@@ -2,7 +2,7 @@
   "character": {
     "name": "VELSIRION ASTAROTH XEPHER",
     "title": "El Dragón Aurio",
-    "level": 23,
+    "level": 24,
     "race": "Amethyst Dragon (Gem Greatwyrm)",
     "class": "Chronurgy Wizard",
     "subclass": "Aprendiz de Ambarios",
@@ -13,66 +13,67 @@
     "strength": {
       "score": 28,
       "modifier": 9,
-      "savingThrow": 18,
+      "savingThrow": 16,
       "proficient": false,
-      "savingThrowBreakdown": "9 (mod) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "9 (mod) + 7 (bonuses)"
     },
     "dexterity": {
       "score": 20,
       "modifier": 5,
-      "savingThrow": 22,
+      "savingThrow": 20,
       "proficient": true,
-      "savingThrowBreakdown": "5 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "5 (mod) + 8 (prof) + 7 (bonuses)"
     },
     "constitution": {
       "score": 28,
       "modifier": 9,
-      "savingThrow": 26,
+      "savingThrow": 24,
       "proficient": true,
-      "savingThrowBreakdown": "9 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "9 (mod) + 8 (prof) + 7 (bonuses)"
     },
     "intelligence": {
       "score": 32,
       "modifier": 11,
-      "savingThrow": 27,
+      "savingThrow": 26,
       "proficient": true,
       "notes": "+2 from Mask of the Dragon King",
-      "savingThrowBreakdown": "11 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "11 (mod) + 8 (prof) + 7 (bonuses)"
     },
     "wisdom": {
       "score": 19,
       "modifier": 4,
-      "savingThrow": 21,
+      "savingThrow": 19,
       "proficient": true,
-      "savingThrowBreakdown": "4 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "4 (mod) + 8 (prof) + 7 (bonuses)"
     },
     "charisma": {
       "score": 23,
       "modifier": 6,
-      "savingThrow": 23,
+      "savingThrow": 21,
       "proficient": true,
-      "savingThrowBreakdown": "6 (mod) + 8 (prof) + 4 (bonuses) + 5 (Anillo de Furiell)"
+      "savingThrowBreakdown": "6 (mod) + 8 (prof) + 7 (bonuses)"
     }
   },
   "combat": {
     "armorClass": {
-      "total": 52,
+      "total": 65,
       "breakdown": {
-        "naturalArmor": 40,
+        "blueScaleMagic": 50,
+        "dexterityModifier": 5,
         "collarDeRyu": 5,
-        "korlakBonus": 2,
-        "anilloDeFuriell": 5,
-        "notes": "High Magic Armor AC 25 superseded by natural armor"
+        "korlakBonus": 5,
+        "notes": "Blue Scale Magic AC 50 (light armor) + Dex modifier + bonuses"
       }
     },
     "hitPoints": {
-      "maximum": 3567,
-      "current": 3567,
+      "maximum": 6167,
+      "current": 6167,
       "breakdown": {
         "baseHP": 667,
         "corazonDeJinLong": 2000,
         "collarDeRyu": 500,
-        "hambreDePoder": "artifacts * 100"
+        "blueScaleMagic": 2000,
+        "hambreDePoder": "artifacts * 200 (6 artifacts = 1200 HP)"
       }
     },
     "shields": {
@@ -92,7 +93,7 @@
       "magicShield": {
         "points": 500,
         "current": 500,
-        "source": "High Magic Armor",
+        "source": "Magic Shield",
         "canBeHealed": false
       }
     },
@@ -128,7 +129,6 @@
         "special": [
           "Always attacks with advantage",
           "Takes form of any weapon",
-          "Gains Equal Super damage of chosen energy type from Anillo de Furiell",
           "Ataque Entrópico (3/LR) - Automatic hit, ignores shields, direct HP damage",
           "Resistencia Entrópica (6 on 1d6) - Returns damage received"
         ]
@@ -188,32 +188,60 @@
     }
   },
   "skills": {
+    "acrobatics": {
+      "bonus": 5,
+      "proficient": false
+    },
+    "animalHandling": {
+      "bonus": 4,
+      "proficient": false
+    },
     "arcana": {
-      "bonus": 29,
+      "bonus": "AUTO",
       "proficient": true,
       "expertise": false,
-      "notes": "+10 from Codicia de Iscalien"
+      "notes": "Automatic success (Codicia de Iscalien III)"
     },
     "athletics": {
       "bonus": 17,
       "proficient": true
     },
+    "deception": {
+      "bonus": 6,
+      "proficient": false
+    },
     "history": {
-      "bonus": 29,
+      "bonus": "AUTO",
       "proficient": true,
-      "notes": "+10 from Codicia de Iscalien"
+      "notes": "Automatic success (Codicia de Iscalien III)"
     },
     "insight": {
       "bonus": 12,
       "proficient": true
     },
+    "intimidation": {
+      "bonus": 6,
+      "proficient": false
+    },
     "investigation": {
       "bonus": 19,
       "proficient": true
     },
+    "medicine": {
+      "bonus": 4,
+      "proficient": false
+    },
+    "nature": {
+      "bonus": 11,
+      "proficient": false
+    },
     "perception": {
       "bonus": 12,
       "proficient": true
+    },
+    "performance": {
+      "bonus": 6,
+      "proficient": false
     },
     "persuasion": {
       "bonus": 14,
@@ -223,9 +251,17 @@
       "bonus": 19,
       "proficient": true
     },
+    "sleightOfHand": {
+      "bonus": 5,
+      "proficient": false
+    },
     "stealth": {
       "bonus": 13,
       "proficient": true
+    },
+    "survival": {
+      "bonus": 4,
+      "proficient": false
     }
   },
   "equipment": {
@@ -289,16 +325,15 @@
         ]
       },
       {
-        "name": "Anillo de Furiell",
+        "name": "Blue Scale Magic",
         "rarity": "Artifact",
         "effects": [
-          "Anillo de Protección Cósmica - +5 AC and saving throws in 15 ft radius",
-          "Energy Selection - Choose one energy at combat start: Fire, Cold, Lightning, Acid, Force, Thunder",
-          "Super Immunity to chosen energy type",
-          "Weapons deal Equal Super damage of chosen type",
-          "Energy Transformation (5-6 on casting) - Transform chosen energy spells into Furiell energy",
-          "Furiell Damage Effects: Breaks 1d6 AC permanently, removes 1 Legendary Resistance automatically, causes specific wounds",
-          "Estado Reiterativo - Furiell damage repeats at start of victim's turn (no vulnerability)"
+          "Armadura Casi Indestructible (+50 AC) Ligera - Volar 120 Pies",
+          "Sangre de dragón de Oro Azul: +2000 HP Dracónico",
+          "Forma Inmutable (Pasiva) - Inmune a conjuros/efectos que alteren forma",
+          "Super Resistencia Mágica (Legendaria) - Ventaja en TTSS, magia hace mitad de daño",
+          "Inmunidad Mágica (6 en 1D6) - Resiste daño/efectos de conjuros (no armas)",
+          "Magia de Guerra (Cósmica) - Ataque gratis al castear, conjuro gratis en multiattack"
         ]
       }
     ],
@@ -437,13 +472,13 @@
           "description": "15 ft aura doubles fixed damage adjustments (allies and self)"
         },
         {
-          "name": "Codicia de Iscalien (II)",
-          "description": "+10 Arcana/History, artifacts reveal purpose, immunity to domination"
-        },
-        {
-          "name": "Hambre de Poder (Legendaria)",
-          "description": "Eat 4 legendary objects, gain +100 HP per artifact owned",
-          "calculation": "artifacts * 100"
+          "name": "Codicia de Iscalien (III)",
+          "description": "Automático Arcana e Historia. Los Artefactos te revelan su propósito. No te pueden dominar.",
+          "effects": [
+            "Resistencia contra Artefactos (6 en 1D6) - Ignora daño/efecto de Artefacto o Reliquia",
+            "Hambre de Poder (Legendaria) - +2 Attunement, come 5 objetos hasta Legendarios",
+            "Obtenes +200 Vida por cada Artefacto que tengas (cuentan como máximos)"
+          ]
         },
         {
           "name": "Sombra de Nemmoris (II)",
@@ -549,18 +584,7 @@
       }
     ]
   },
-  "permanentSpells": [
-    {
-      "name": "High Magic Armor",
-      "duration": "24 hours",
-      "effects": [
-        "AC 25 (superseded by natural armor)",
-        "Magic Resistance (advantage on magical saves)",
-        "+500 HP shield",
-        "Reaction: +10 AC magical shield blocks first non-natural 20 attack"
-      ]
-    }
-  ],
+  "permanentSpells": [],
   "immunities": {
     "damageTypes": [
       "Super Fire",
@@ -569,19 +593,22 @@
       "Critical Hits"
     ],
     "conditions": [
-      "Charmed",
-      "Frightened", 
+      "Charmed (Korlak bond)",
+      "Frightened (Korlak bond)", 
       "Poisoned",
       "Prone",
       "Negative Temporal Effects",
       "Paralyzed",
-      "Possessed"
+      "Possessed",
+      "Polymorph and shape-altering effects"
     ]
   },
   "resistances": {
     "special": [
       "Resistencia Total (all damage types from Ring)",
-      "Magic Resistance (advantage on saves vs spells/magical effects)"
+      "Magic Resistance (advantage on saves vs spells/magical effects)",
+      "Super Resistencia Mágica (advantage on saves, magic damage halved)",
+      "Inmunidad Mágica (6 on 1d6 resists spell damage/effects, not weapons)"
     ]
   },
   "regeneration": {
@@ -648,7 +675,7 @@
   },
   "gameState": {
     "hitPoints": {
-      "current": 3567
+      "current": 6167
     },
     "shields": {
       "psychicShield": {
@@ -699,7 +726,7 @@
   "bonds": {
     "korlak": {
       "relationship": "Ally",
-      "bonuses": "+2 to all saving throws, +2 AC"
+      "bonuses": "+5 to all saving throws, +5 AC, immunity to charm and fear"
     }
   }
 }
