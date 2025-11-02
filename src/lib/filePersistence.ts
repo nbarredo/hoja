@@ -1,4 +1,4 @@
-import type { GameState } from './gameState';
+import type { GameState } from './gameState-db';
 
 // Since we're in a client-side environment, we'll provide utilities 
 // to export/import the updated JSON data
@@ -33,9 +33,6 @@ export class FilePersistenceManager {
           },
           towerShield: {
             current: gameState.shields.towerShield?.current || gameState.shields.towerShield?.points || 1000
-          },
-          magicShield: {
-            current: gameState.shields.magicShield?.current || gameState.shields.magicShield?.points || 500
           }
         },
         spellSlots: Object.fromEntries(
@@ -104,12 +101,6 @@ export class FilePersistenceManager {
             source: "Resistencia de la Torre Blanca", 
             canBeHealed: false, 
             special: "Indestructible" 
-          },
-          magicShield: { 
-            points: 500, 
-            current: data.gameState.shields?.magicShield?.current || 500, 
-            source: "High Magic Armor", 
-            canBeHealed: false 
           }
         },
         spellSlots: {},

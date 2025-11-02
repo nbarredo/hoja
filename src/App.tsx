@@ -46,18 +46,41 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="velsirion-ui-theme">
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground relative overflow-hidden">
         {/* Background decoration */}
+        <h1>Velsirion</h1>
         <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-l from-purple-500/10 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
+        
+        {/* Decorative character name watermarks */}
+        <div className="absolute top-20 right-10 text-6xl font-bold text-purple-500/5 transform rotate-12 pointer-events-none select-none">
+          VELSIRION
+        </div>
+        <div className="absolute bottom-32 left-20 text-5xl font-bold text-blue-500/5 transform -rotate-12 pointer-events-none select-none">
+          VELSIRION
+        </div>
+        <div className="absolute top-1/2 left-1/4 text-8xl font-bold text-primary/3 transform rotate-45 pointer-events-none select-none">
+          V
+        </div>
+        <div className="absolute top-1/3 right-1/3 text-7xl font-bold text-purple-400/3 transform -rotate-45 pointer-events-none select-none">
+          V
+        </div>
         
         <div className="max-w-7xl mx-auto p-6 relative z-10">
           {/* Character Header */}
           <div className="mb-8 border-b border-border/50 pb-6 backdrop-blur-sm">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
-                <h1 className="text-6xl font-bold tracking-wide bg-gradient-to-r from-primary via-purple-400 to-blue-400 bg-clip-text text-transparent drop-shadow-lg animate-pulse">
-                  {characterData.name}
-                </h1>
+                <div className="relative">
+                  <h1 className="text-7xl font-bold tracking-wider bg-gradient-to-r from-primary via-purple-400 to-blue-400 bg-clip-text text-transparent drop-shadow-lg animate-pulse relative z-10">
+                    {characterData.name}
+                  </h1>
+                  <div className="absolute -top-2 -left-2 text-8xl font-bold text-purple-500/10 tracking-wider pointer-events-none">
+                    {characterData.name}
+                  </div>
+                  <div className="absolute top-1 left-1 text-7xl font-bold text-blue-500/10 tracking-wider pointer-events-none">
+                    {characterData.name}
+                  </div>
+                </div>
                 <p className="text-2xl text-muted-foreground font-medium bg-gradient-to-r from-muted-foreground to-muted-foreground/70 bg-clip-text text-transparent">
                   {characterData.subtitle}
                 </p>
@@ -72,14 +95,19 @@ function App() {
                 >
                   🌙 Long Rest
                 </Button>
-                <Button 
-                  onClick={() => actions.reset()}
+                <Button
+                  onClick={() => {
+                    // Clear the database cache
+                    localStorage.removeItem('velsirion-character-db')
+                    localStorage.removeItem('velsirion-character-state')
+                    window.location.reload()
+                  }}
                   variant="secondary"
                   size="sm"
                   className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0 text-white"
-                  title="Reset all state (for debugging)"
+                  title="Clear cached data and reload from JSON"
                 >
-                  🔄 Reset
+                  🔄 Reset State
                 </Button>
               </div>
             </div>

@@ -66,14 +66,14 @@
       }
     },
     "hitPoints": {
-      "maximum": 6167,
-      "current": 6167,
+      "maximum": 6360,
+      "current": 6360,
       "breakdown": {
-        "baseHP": 667,
+        "baseHP": 1260,
         "corazonDeJinLong": 2000,
         "collarDeRyu": 500,
         "blueScaleMagic": 2000,
-        "hambreDePoder": "artifacts * 200 (6 artifacts = 1200 HP)"
+        "hambreDePoder": "artifacts * 100 (6 artifacts = 600 HP)"
       }
     },
     "shields": {
@@ -686,7 +686,7 @@
   },
   "gameState": {
     "hitPoints": {
-      "current": 6167
+      "current": 6360
     },
     "shields": {
       "psychicShield": {

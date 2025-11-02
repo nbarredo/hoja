@@ -1,5 +1,5 @@
 // Simple JSON database using localStorage as fallback for browser compatibility
-import type { GameState } from './gameState'
+import type { GameState } from './gameState-db'
 
 // Database schema
 interface DatabaseSchema {
@@ -84,12 +84,6 @@ class DatabaseManager {
           source: "Resistencia de la Torre Blanca", 
           canBeHealed: false, 
           special: "Indestructible" 
-        },
-        magicShield: { 
-          points: 500, 
-          current: characterData.gameState?.shields?.magicShield?.current || 500, 
-          source: "High Magic Armor", 
-          canBeHealed: false 
         }
       },
       spellSlots: {
