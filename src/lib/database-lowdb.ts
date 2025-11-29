@@ -93,24 +93,26 @@ class DatabaseManager {
         "4th": { total: 3, used: characterData.gameState?.spellSlots?.["4th"]?.used || 0 },
         "5th": { total: 3, used: characterData.gameState?.spellSlots?.["5th"]?.used || 0 },
         "6th": { total: 3, used: characterData.gameState?.spellSlots?.["6th"]?.used || 0 },
-        "7th": { total: 2, used: characterData.gameState?.spellSlots?.["7th"]?.used || 0 },
+        "7th": { total: 3, used: characterData.gameState?.spellSlots?.["7th"]?.used || 0 },
         "8th": { total: 2, used: characterData.gameState?.spellSlots?.["8th"]?.used || 0 },
         "9th": { total: 2, used: characterData.gameState?.spellSlots?.["9th"]?.used || 0 },
         "10th": { total: 1, used: characterData.gameState?.spellSlots?.["10th"]?.used || 0 },
-        "11th": { total: 1, used: characterData.gameState?.spellSlots?.["11th"]?.used || 0 }
+        "11th": { total: 1, used: characterData.gameState?.spellSlots?.["11th"]?.used || 0 },
+        "12th": { total: 1, used: characterData.gameState?.spellSlots?.["12th"]?.used || 0 },
+        "13th": { total: 1, used: characterData.gameState?.spellSlots?.["13th"]?.used || 0 }
       },
       longRestAbilities: {
-        "Perfect Strike": { total: 3, used: characterData.gameState?.longRestAbilities?.["Perfect Strike"]?.used || 0 },
-        "Chronal Shift": { total: 2, used: characterData.gameState?.longRestAbilities?.["Chronal Shift"]?.used || 0 },
-        "Momentary Stasis": { total: 1, used: characterData.gameState?.longRestAbilities?.["Momentary Stasis"]?.used || 0 },
-        "Convergent Future": { total: 1, used: characterData.gameState?.longRestAbilities?.["Convergent Future"]?.used || 0 },
-        "Legendary Resistance": { total: 4, used: characterData.gameState?.longRestAbilities?.["Legendary Resistance"]?.used || 0 },
-        "Ataque Entrópico": { total: 3, used: characterData.gameState?.longRestAbilities?.["Ataque Entrópico"]?.used || 0 },
-        "Fuego Puro": { total: 3, used: characterData.gameState?.longRestAbilities?.["Fuego Puro"]?.used || 0 },
-        "Escudo de la Última Esperanza": { total: 3, used: characterData.gameState?.longRestAbilities?.["Escudo de la Última Esperanza"]?.used || 0 }
+        "Perfect Strike": { total: 4, used: characterData.gameState?.longRestAbilities?.["Perfect Strike"]?.used || 0 },
+        "Chronal Shift": { total: 3, used: characterData.gameState?.longRestAbilities?.["Chronal Shift"]?.used || 0 },
+        "Momentary Stasis": { total: 2, used: characterData.gameState?.longRestAbilities?.["Momentary Stasis"]?.used || 0 },
+        "Convergent Future": { total: 2, used: characterData.gameState?.longRestAbilities?.["Convergent Future"]?.used || 0 },
+        "Legendary Resistance": { total: 5, used: characterData.gameState?.longRestAbilities?.["Legendary Resistance"]?.used || 0 },
+        "Ataque Entrópico": { total: 4, used: characterData.gameState?.longRestAbilities?.["Ataque Entrópico"]?.used || 0 },
+        "Fuego Puro": { total: 4, used: characterData.gameState?.longRestAbilities?.["Fuego Puro"]?.used || 0 },
+        "Escudo de la Última Esperanza": { total: 4, used: characterData.gameState?.longRestAbilities?.["Escudo de la Última Esperanza"]?.used || 0 }
       },
       legendaryResistances: {
-        total: 14,
+        total: 15,
         used: characterData.gameState?.legendaryResistances?.used || 0
       },
       lastUpdated: Date.now()

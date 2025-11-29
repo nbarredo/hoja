@@ -2,12 +2,12 @@
   "character": {
     "name": "VELSIRION ASTAROTH XEPHER",
     "title": "El Dragón Aurio",
-    "level": 24,
+    "level": 25,
     "race": "Amethyst Dragon (Gem Greatwyrm)",
     "class": "Chronurgy Wizard",
     "subclass": "Aprendiz de Ambarios",
     "background": "Mysterious origin (egg fell from sky on Isle of Aris)",
-    "proficiencyBonus": 8
+    "proficiencyBonus": 9
   },
   "abilityScores": {
     "strength": {
@@ -66,14 +66,15 @@
       }
     },
     "hitPoints": {
-      "maximum": 6360,
-      "current": 6360,
+      "maximum": 7170,
+      "current": 7170,
       "breakdown": {
-        "baseHP": 1260,
+        "baseHP": 1470,
+        "baseHPCalculation": "Levels 1-20: 20×(12+9)=420, Levels 21-25: 5×(12+9)×10=1050",
         "corazonDeJinLong": 2000,
         "collarDeRyu": 500,
         "blueScaleMagic": 2000,
-        "hambreDePoder": "artifacts * 100 (6 artifacts = 600 HP)"
+        "hambreDePoder": "6 artifacts × 200 = 1200 HP"
       }
     },
     "shields": {
@@ -113,7 +114,7 @@
         "attackBonus": 27,
         "damage": "1d100+29",
         "damageType": "Super Sacred + Equal Super [Chosen Energy]",
-        "special": ["Heals you for damage dealt", "Healing Touch: 3/LR touch heals 500 HP", "Gains Equal Super damage of chosen energy type"]
+        "special": ["Heals you for damage dealt", "Healing Touch: 4/LR touch heals 500 HP", "Gains Equal Super damage of chosen energy type"]
       },
       {
         "name": "The Staff of Entropy",
@@ -123,7 +124,7 @@
         "special": [
           "Always attacks with advantage",
           "Takes form of any weapon",
-          "Ataque Entrópico (3/LR) - Automatic hit, ignores shields, direct HP damage",
+          "Ataque Entrópico (4/LR) - Automatic hit, ignores shields, direct HP damage",
           "Resistencia Entrópica (6 on 1d6) - Returns damage received"
         ]
       }
@@ -131,7 +132,7 @@
     "specialAttacks": [
       {
         "name": "Perfect Strike",
-        "uses": "3/LR",
+        "uses": "4/LR",
         "effect": "Automatic hit (check for critical)"
       },
       {
@@ -157,22 +158,24 @@
   },
   "spellcasting": {
     "ability": "Intelligence",
-    "spellSaveDC": 52,
+    "spellSaveDC": 57,
     "spellAttackBonus": 36,
     "counterspellBonus": 2,
-    "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Staff of Entropy makes ALL enemies have disadvantage on spell saves.",
+    "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Staff of Entropy makes ALL enemies have disadvantage on spell saves. Ring of Unicorn: Radiant spells ignore D6 resistances.",
     "spellSlots": {
       "1st": { "total": 4, "used": 0 },
       "2nd": { "total": 3, "used": 0 },
       "3rd": { "total": 3, "used": 0 },
       "4th": { "total": 3, "used": 0 },
       "5th": { "total": 3, "used": 0 },
-      "6th": { "total": 2, "used": 0 },
-      "7th": { "total": 2, "used": 0 },
+      "6th": { "total": 3, "used": 0 },
+      "7th": { "total": 3, "used": 0 },
       "8th": { "total": 2, "used": 0 },
       "9th": { "total": 2, "used": 0 },
       "10th": { "total": 1, "used": 0 },
-      "11th": { "total": 1, "used": 0 }
+      "11th": { "total": 1, "used": 0 },
+      "12th": { "total": 1, "used": 0 },
+      "13th": { "total": 1, "used": 0 }
     },
     "bonuses": {
       "varaDelEfreet": "+5 DC to all spells, +200 fire damage",
@@ -280,7 +283,7 @@
         "rarity": "Artifact",
         "effects": [
           "Vara de Evocación (Legendaria) - +5 DC and Attack, +200 fire damage",
-          "Fuego Puro (Free - 3/LR) - Double fire damage on target",
+          "Fuego Puro (Free - 4/LR) - Double fire damage on target",
           "Maestro Evocador (Legendaria) - Evocation spells cost no slot, high magic half cost",
           "Los Tres Deseos Ígneos (3 charges) - Reality-altering fire wishes"
         ]
@@ -311,7 +314,7 @@
           "Arma Entrópica (+10) - Takes form of any weapon",
           "Always attacks with advantage",
           "Damage: 3d100+300 Super Weapon + Equal Chaos damage",
-          "Ataque Entrópico (3/LR) - Automatic hit, causes specific wounds, ignores shields, damages HP directly",
+          "Ataque Entrópico (4/LR) - Automatic hit, causes specific wounds, ignores shields, damages HP directly",
           "Resistencia Entrópica (6 on 1d6) - Returns damage received",
           "Magia Entrópica (+10) - +10 DC and Magic Attack bonus",
           "Your spell DC always causes disadvantage on saves",
@@ -390,6 +393,38 @@
           "Se le perdió a un Leprechaun dorado único que vaga por el mundo",
           "Dicen que cazándolo se obtiene una suerte infinita"
         ]
+      },
+      {
+        "name": "Ioun Stone of Mastery",
+        "rarity": "Legendary",
+        "effects": [
+          "+1 Proficiency Bonus (included in calculations)"
+        ]
+      },
+      {
+        "name": "☆ Time Acelerator (Rayo) ☆",
+        "rarity": "Artifact",
+        "effects": [
+          "Obtenes una Free Action extra"
+        ],
+        "description": "Artefacto Yugoloth de aceleración molecular."
+      },
+      {
+        "name": "☆ Talisman of Greed (+1) ☆",
+        "rarity": "Artifact",
+        "effects": [
+          "Carga a todas las habilidades con cargas que tengas, incluyendo LR"
+        ],
+        "description": "Amuleto de oro macizo con una gema llamada Ojo del Ambicioso, que según la leyenda, trae fortunas y miserias por igual. Esta gema potencia su poder si le das oro."
+      },
+      {
+        "name": "☆ Ring of the Unicorn (+5) ☆",
+        "rarity": "Artifact",
+        "effects": [
+          "+5 DC (included in calculations)",
+          "Los conjuros que utilizan Radiant ignoran Resistencias D6"
+        ],
+        "description": "Hecho con el cuerno del último dios unicornio, quien murió en tercera Guerra del Eclipse."
       }
     ]
   },
@@ -480,8 +515,8 @@
           "source": "Staff of Entropy"
         },
         {
-          "name": "Furia de Naxaaris (II)",
-          "description": "15 ft aura doubles fixed damage adjustments (allies and self)"
+          "name": "☆ Furia de Naxaaris (IV) ☆",
+          "description": "Aura de Furia (R. 60 Pies) Duplica los Ajustes al Daño Fijos (Propios y aliados).\n☆ Sacando el Máximo en Daño: Suma y se retira. Los D100 se tira solo el de las decenas.\n☆ Aberrant Strike (Free - 1/R) Golpea Automático a un Enemigo y daña con Vulnerabilidad\n☆ Ofensiva Irresistible: Atacando o Dañando Reduce 1 Punto las Resistencias D6."
         },
         {
           "name": "Codicia de Iscalien (III)",
@@ -514,12 +549,12 @@
         },
         {
           "name": "Chronal Shift",
-          "uses": "2/LR",
+          "uses": "3/LR",
           "description": "Force reroll of attack, ability check, or save within 30 feet"
         },
         {
           "name": "Momentary Stasis",
-          "uses": "1/LR",
+          "uses": "2/LR",
           "description": "Incapacitate creature for 1 minute (save each turn)"
         },
         {
@@ -528,7 +563,7 @@
         },
         {
           "name": "Convergent Future",
-          "uses": "1/LR",
+          "uses": "2/LR",
           "description": "Make any d20 roll an 11"
         }
       ]
@@ -544,7 +579,7 @@
       },
       {
         "name": "Escudo de la Última Esperanza",
-        "uses": "3/LR",
+        "uses": "4/LR",
         "description": "Prevent death, gain super immunity to that damage type + healing"
       },
       {
@@ -686,7 +721,7 @@
   },
   "gameState": {
     "hitPoints": {
-      "current": 6360
+      "current": 7170
     },
     "shields": {
       "psychicShield": {
@@ -707,7 +742,9 @@
       "8th": { "used": 0 },
       "9th": { "used": 0 },
       "10th": { "used": 0 },
-      "11th": { "used": 0 }
+      "11th": { "used": 0 },
+      "12th": { "used": 0 },
+      "13th": { "used": 0 }
     },
     "longRestAbilities": {
       "Perfect Strike": { "used": 0 },
