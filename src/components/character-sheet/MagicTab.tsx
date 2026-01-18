@@ -144,8 +144,14 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
             <CardTitle className="text-xl font-bold text-foreground">Spell Slots</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-11 gap-3">
-              {Object.entries(localSpellSlots).map(([level, slot]) => {
+            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
+              {/* Levels 1-9 */}
+              {Object.entries(localSpellSlots)
+                .filter(([level]) => {
+                  const levelNum = parseInt(level.replace(/\D/g, ''))
+                  return levelNum <= 9
+                })
+                .map(([level, slot]) => {
                 const typedSlot = slot as { used: number; total: number }
                 return (
                 <div key={`spell-level-${level}`} className="text-center p-3 border border-border rounded bg-muted">
@@ -156,10 +162,8 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                         key={`${level}-${index}`}
                         onClick={() => {
                           if (index < typedSlot.used) {
-                            // Restore this slot
                             handleSpellSlotRestore(level)
                           } else {
-                            // Use this slot
                             handleSpellSlotClick(level)
                           }
                         }}
@@ -167,8 +171,8 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                         size="sm"
                         className={`w-7 h-7 p-0 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
                           index < typedSlot.used
-                            ? 'bg-muted border-border hover:bg-muted/80' // Used
-                            : 'bg-primary border-primary/50 hover:bg-primary/90 hover:border-primary/70' // Available
+                            ? 'bg-muted border-border hover:bg-muted/80'
+                            : 'bg-primary border-primary/50 hover:bg-primary/90 hover:border-primary/70'
                         }`}
                         title={index < typedSlot.used ? 'Click to restore' : 'Click to use'}
                       />
@@ -180,6 +184,63 @@ export function MagicTab({ characterData: _propCharacterData }: MagicTabProps) {
                 </div>
                 )
               })}
+
+              {/* Alta Magia (Levels 10-13 grouped) */}
+              {(() => {
+                const altaMagiaSlots = Object.entries(localSpellSlots)
+                  .filter(([level]) => {
+                    const levelNum = parseInt(level.replace(/\D/g, ''))
+                    return levelNum >= 10
+                  })
+
+                const totalSlots = altaMagiaSlots.reduce((sum, [, slot]) => {
+                  const typedSlot = slot as { used: number; total: number }
+                  return sum + typedSlot.total
+                }, 0)
+
+                const usedSlots = altaMagiaSlots.reduce((sum, [, slot]) => {
+                  const typedSlot = slot as { used: number; total: number }
+                  return sum + typedSlot.used
+                }, 0)
+
+                return (
+                  <div className="text-center p-3 border border-border rounded bg-muted">
+                    <div className="text-xs text-muted-foreground uppercase font-medium mb-2">Alta Magia</div>
+                    <div className="flex flex-col gap-1 items-center mb-2">
+                      {altaMagiaSlots.map(([level, slot]) => {
+                        const typedSlot = slot as { used: number; total: number }
+                        return (
+                          <div key={`alta-magia-${level}`} className="flex gap-1">
+                            {Array.from({ length: typedSlot.total }, (_, index) => (
+                              <Button
+                                key={`${level}-${index}`}
+                                onClick={() => {
+                                  if (index < typedSlot.used) {
+                                    handleSpellSlotRestore(level)
+                                  } else {
+                                    handleSpellSlotClick(level)
+                                  }
+                                }}
+                                variant="ghost"
+                                size="sm"
+                                className={`w-7 h-7 p-0 rounded-lg border-2 transition-all duration-200 shadow-sm hover:shadow-md ${
+                                  index < typedSlot.used
+                                    ? 'bg-muted border-border hover:bg-muted/80'
+                                    : 'bg-purple-600 border-purple-500 hover:bg-purple-700 hover:border-purple-400'
+                                }`}
+                                title={`Level ${level} - ${index < typedSlot.used ? 'Click to restore' : 'Click to use'}`}
+                              />
+                            ))}
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <div className="text-sm text-foreground">
+                      {totalSlots - usedSlots}/{totalSlots}
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
           </CardContent>
         </Card>

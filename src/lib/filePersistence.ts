@@ -1,4 +1,4 @@
-import type { GameState } from './gameState';
+import type { GameState } from './gameState-db';
 
 // Since we're in a client-side environment, we'll provide utilities 
 // to export/import the updated JSON data
@@ -33,9 +33,6 @@ export class FilePersistenceManager {
           },
           towerShield: {
             current: gameState.shields.towerShield?.current || gameState.shields.towerShield?.points || 1000
-          },
-          magicShield: {
-            current: gameState.shields.magicShield?.current || gameState.shields.magicShield?.points || 500
           }
         },
         spellSlots: Object.fromEntries(
@@ -104,18 +101,12 @@ export class FilePersistenceManager {
             source: "Resistencia de la Torre Blanca", 
             canBeHealed: false, 
             special: "Indestructible" 
-          },
-          magicShield: { 
-            points: 500, 
-            current: data.gameState.shields?.magicShield?.current || 500, 
-            source: "High Magic Armor", 
-            canBeHealed: false 
           }
         },
         spellSlots: {},
         longRestAbilities: {},
         legendaryResistances: {
-          total: 14,
+          total: 15,
           used: data.gameState.legendaryResistances?.used || 0
         },
         lastUpdated: data.gameState.lastUpdated || Date.now()
@@ -133,14 +124,14 @@ export class FilePersistenceManager {
 
       // Build long rest abilities
       const defaultAbilities = {
-        "Perfect Strike": { total: 3, used: 0 },
-        "Chronal Shift": { total: 2, used: 0 },
-        "Momentary Stasis": { total: 1, used: 0 },
-        "Convergent Future": { total: 1, used: 0 },
-        "Legendary Resistance": { total: 4, used: 0 },
-        "Ataque Entrópico": { total: 3, used: 0 },
-        "Fuego Puro": { total: 3, used: 0 },
-        "Escudo de la Última Esperanza": { total: 3, used: 0 }
+        "Perfect Strike": { total: 4, used: 0 },
+        "Chronal Shift": { total: 3, used: 0 },
+        "Momentary Stasis": { total: 2, used: 0 },
+        "Convergent Future": { total: 2, used: 0 },
+        "Legendary Resistance": { total: 5, used: 0 },
+        "Ataque Entrópico": { total: 4, used: 0 },
+        "Fuego Puro": { total: 4, used: 0 },
+        "Escudo de la Última Esperanza": { total: 4, used: 0 }
       };
 
       Object.entries(defaultAbilities).forEach(([name, ability]) => {

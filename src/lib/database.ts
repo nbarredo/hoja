@@ -107,8 +107,7 @@ export const transformUpdatedCharacterData = (data: any): CharacterData => {
     },
     shields: {
       psychic: data.combat.shields.psychicShield.points,
-      tower: data.combat.shields.towerShield.points,
-      magic: data.combat.shields.magicShield.points
+      tower: data.combat.shields.towerShield.points
     },
     spellcasting: {
       saveDC: data.spellcasting.spellSaveDC,

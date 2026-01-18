@@ -121,20 +121,20 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
   return (
     <div className="space-y-6">
       {/* Ability Scores */}
-      <Card className="bg-card border-border">
-        <CardHeader className="border-b border-border">
-          <CardTitle className="text-xl font-bold text-foreground">Ability Scores</CardTitle>
+      <Card className="bg-gradient-to-br from-card to-muted/30 border-border/50 shadow-xl">
+        <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/10 to-purple-500/10">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">Ability Scores</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {abilityScores && Object.entries(abilityScores).map(([ability, data]: [string, any]) => (
-              <Card key={ability} className="bg-muted border-border">
+              <Card key={ability} className="bg-gradient-to-br from-card to-muted/50 border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <CardContent className="p-4 text-center">
                   <div className="text-xs text-muted-foreground uppercase tracking-widest mb-2 font-bold">
                     {ability.slice(0, 3)}
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-1">{data.score}</div>
-                  <div className="text-lg text-foreground font-mono font-bold">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent mb-1">{data.score}</div>
+                  <div className="text-lg text-foreground font-mono font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
                     {data.modifier >= 0 ? '+' : ''}{data.modifier}
                   </div>
                 </CardContent>
@@ -145,20 +145,20 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
       </Card>
 
       {/* Physical Stats - AC, HP, Initiative, Speed */}
-      <Card className="bg-card border-border">
-        <CardHeader className="border-b border-border">
-          <CardTitle className="text-xl font-bold text-foreground">Physical Stats</CardTitle>
+      <Card className="bg-gradient-to-br from-card to-muted/30 border-border/50 shadow-xl">
+        <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/10 to-blue-500/10">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">Physical Stats</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 border border-border rounded bg-muted">
-              <div className="text-3xl font-bold text-foreground mb-1">{combat?.armorClass?.total || 'N/A'}</div>
+            <div className="text-center p-6 border border-border/50 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">{combat?.armorClass?.total || 'N/A'}</div>
               <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Armor Class</div>
             </div>
             
             {/* Trackable HP */}
-            <div className="text-center p-4 border border-border rounded bg-muted">
-              <div className="text-3xl font-bold text-foreground mb-1">
+            <div className="text-center p-6 border border-border/50 rounded-lg bg-gradient-to-br from-red-500/10 to-orange-500/10 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="text-4xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent mb-2">
                 {state.hitPoints.current}/{state.hitPoints.maximum}
               </div>
               <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-3">Hit Points</div>
@@ -187,7 +187,7 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                   }}
                   variant="destructive"
                   size="sm"
-                  className="shadow-sm"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
                 >
                   − Damage
                 </Button>
@@ -198,22 +198,22 @@ export function BasicStatsTab({ characterData: _propCharacterData }: BasicStatsT
                   }}
                   variant="default"
                   size="sm"
-                  className="bg-green-600 hover:bg-green-700 text-white shadow-sm"
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
                 >
                   + Heal
                 </Button>
               </div>
             </div>
             
-            <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-3xl font-bold text-white mb-1">+{combat?.initiative || 'N/A'}</div>
-              <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Initiative</div>
+            <div className="text-center p-6 border border-border/50 rounded-lg bg-gradient-to-br from-yellow-500/10 to-amber-500/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent mb-2">+{combat?.initiative || 'N/A'}</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Initiative</div>
             </div>
-            <div className="text-center p-4 border border-gray-700 rounded bg-gray-800">
-              <div className="text-lg font-bold text-white mb-1">
+            <div className="text-center p-6 border border-border/50 rounded-lg bg-gradient-to-br from-cyan-500/10 to-teal-500/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent mb-2">
                 {combat?.speed ? formatSpeed(combat.speed) : 'N/A'}
               </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wider font-medium">Speed</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Speed</div>
             </div>
           </div>
         </CardContent>

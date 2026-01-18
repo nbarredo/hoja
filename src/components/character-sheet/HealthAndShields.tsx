@@ -135,36 +135,6 @@ export function HealthAndShields({
             </div>
           </div>
 
-          {/* Magic Shield */}
-          <div className="space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="text-red-300 text-sm">Magic Shield</span>
-              <span className="text-red-100 text-sm font-medium">{shields.magic} / 500</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button 
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6 hover:bg-gray-900/20"
-                onClick={() => updateShield('magic', -50)}
-              >
-                <Minus className="w-3 h-3" />
-              </Button>
-              <Progress 
-                value={(shields.magic / 500) * 100} 
-                className="flex-1 h-4 bg-gray-800"
-                indicatorClassName="bg-gray-500"
-              />
-              <Button 
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6 hover:bg-gray-900/20"
-                onClick={() => updateShield('magic', 50)}
-              >
-                <Plus className="w-3 h-3" />
-              </Button>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>

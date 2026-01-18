@@ -35,7 +35,7 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
   if (characterData.skills && typeof characterData.skills === 'object') {
     Object.entries(characterData.skills).forEach(([skillName, skillData]: [string, any]) => {
       characterSkills.set(skillName.toLowerCase(), {
-        value: skillData.bonus || skillData.value || 0,
+        bonus: skillData.bonus || skillData.value || 0,
         expertise: skillData.expertise || false,
         proficient: skillData.proficient || false,
         notes: skillData.notes
@@ -52,11 +52,11 @@ export function SkillsTabComponent({ characterData }: SkillsTabProps) {
     const abilityModifier = characterData.abilities?.[skill.ability as keyof typeof characterData.abilities]?.modifier || 0
     
     // If character has this skill defined in the JSON, use those values
-    if (characterSkill && characterSkill.value !== undefined) {
+    if (characterSkill && characterSkill.bonus !== undefined) {
       return {
         name: skill.name,
         ability: skill.ability,
-        bonus: characterSkill.value,
+        bonus: characterSkill.bonus,
         proficient: characterSkill.proficient,
         expertise: characterSkill.expertise || skill.name === 'Arcana', // Arcana gets expertise
         abilityModifier,

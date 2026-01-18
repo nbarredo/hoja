@@ -122,11 +122,6 @@ export function ShieldsTab({ characterData: _propCharacterData }: ShieldsTabProp
               <p className="text-gray-300 text-sm">Indestructible shield providing constant protection.</p>
               <div className="text-yellow-400 text-sm mt-1">Special: Indestructible</div>
             </div>
-            <div className="border border-gray-700 rounded p-4 bg-gray-800">
-              <h4 className="font-bold text-white text-lg mb-2">Magic Shield</h4>
-              <p className="text-gray-200 mb-2">Source: High Magic Armor</p>
-              <p className="text-gray-300 text-sm">Provides protection against magical attacks.</p>
-            </div>
           </div>
         </CardContent>
       </Card>
