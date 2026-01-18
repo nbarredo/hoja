@@ -11,70 +11,70 @@
   },
   "abilityScores": {
     "strength": {
-      "score": 28,
-      "modifier": 9,
-      "savingThrow": 16,
+      "score": 30,
+      "modifier": 10,
+      "savingThrow": 17,
       "proficient": false,
-      "savingThrowBreakdown": "9 (mod) + 7 (bonuses)"
+      "savingThrowBreakdown": "10 (mod) + 7 (bonuses)"
     },
     "dexterity": {
-      "score": 20,
+      "score": 22,
+      "modifier": 6,
+      "savingThrow": 21,
+      "proficient": true,
+      "savingThrowBreakdown": "6 (mod) + 8 (prof) + 7 (bonuses)"
+    },
+    "constitution": {
+      "score": 30,
+      "modifier": 10,
+      "savingThrow": 25,
+      "proficient": true,
+      "savingThrowBreakdown": "10 (mod) + 8 (prof) + 7 (bonuses)"
+    },
+    "intelligence": {
+      "score": 34,
+      "modifier": 12,
+      "savingThrow": 27,
+      "proficient": true,
+      "notes": "+2 from Mask of the Dragon King",
+      "savingThrowBreakdown": "12 (mod) + 8 (prof) + 7 (bonuses)"
+    },
+    "wisdom": {
+      "score": 21,
       "modifier": 5,
       "savingThrow": 20,
       "proficient": true,
       "savingThrowBreakdown": "5 (mod) + 8 (prof) + 7 (bonuses)"
     },
-    "constitution": {
-      "score": 28,
-      "modifier": 9,
-      "savingThrow": 24,
-      "proficient": true,
-      "savingThrowBreakdown": "9 (mod) + 8 (prof) + 7 (bonuses)"
-    },
-    "intelligence": {
-      "score": 32,
-      "modifier": 11,
-      "savingThrow": 26,
-      "proficient": true,
-      "notes": "+2 from Mask of the Dragon King",
-      "savingThrowBreakdown": "11 (mod) + 8 (prof) + 7 (bonuses)"
-    },
-    "wisdom": {
-      "score": 19,
-      "modifier": 4,
-      "savingThrow": 19,
-      "proficient": true,
-      "savingThrowBreakdown": "4 (mod) + 8 (prof) + 7 (bonuses)"
-    },
     "charisma": {
-      "score": 23,
-      "modifier": 6,
-      "savingThrow": 21,
+      "score": 25,
+      "modifier": 7,
+      "savingThrow": 22,
       "proficient": true,
-      "savingThrowBreakdown": "6 (mod) + 8 (prof) + 7 (bonuses)"
+      "savingThrowBreakdown": "7 (mod) + 8 (prof) + 7 (bonuses)"
     }
   },
   "combat": {
     "armorClass": {
-      "total": 65,
+      "total": 131,
       "breakdown": {
-        "blueScaleMagic": 50,
-        "dexterityModifier": 5,
-        "collarDeRyu": 5,
+        "escamasAurias": 100,
+        "dexterityModifier": 6,
         "korlakBonus": 5,
-        "notes": "Blue Scale Magic AC 50 (light armor) + Dex modifier + bonuses"
+        "staffOfJanus": 20,
+        "notes": "Escamas Aurias 100 AC Natural + Dex modifier + bonuses"
       }
     },
     "hitPoints": {
-      "maximum": 7170,
-      "current": 7170,
+      "maximum": 11140,
+      "current": 11140,
       "breakdown": {
-        "baseHP": 1470,
-        "baseHPCalculation": "Levels 1-20: 20×(12+9)=420, Levels 21-25: 5×(12+9)×10=1050",
-        "corazonDeJinLong": 2000,
-        "collarDeRyu": 500,
+        "baseHP": 1540,
+        "baseHPCalculation": "Levels 1-20: 20×(12+10)=440, Levels 21-25: 5×(12+10)×10=1100",
+        "corazonAurio": 4000,
         "blueScaleMagic": 2000,
-        "hambreDePoder": "6 artifacts × 200 = 1200 HP"
+        "anilloDeLoInevitable": 2000,
+        "hambreDePoder": "8 artifacts × 200 = 1600 HP"
       }
     },
     "shields": {
@@ -92,7 +92,7 @@
         "special": "Indestructible"
       }
     },
-    "initiative": 21,
+    "initiative": 23,
     "speed": {
       "walking": "60 ft",
       "burrow": "60 ft",
@@ -104,29 +104,24 @@
     "meleeAttacks": [
       {
         "name": "Garra de Yrkaryn (Right Claw)",
-        "attackBonus": 27,
-        "damage": "1d100+29",
+        "attackBonus": 28,
+        "damage": "1d100+30",
         "damageType": "Super Slashing + Equal Super [Chosen Energy]",
         "special": ["Auto-dispels magic up to level 9", "Garra Disruptora", "Gains Equal Super damage of chosen energy type"]
       },
       {
         "name": "Garra de Myastan (Left Claw)",
-        "attackBonus": 27,
-        "damage": "1d100+29",
+        "attackBonus": 28,
+        "damage": "1d100+30",
         "damageType": "Super Sacred + Equal Super [Chosen Energy]",
         "special": ["Heals you for damage dealt", "Healing Touch: 4/LR touch heals 500 HP", "Gains Equal Super damage of chosen energy type"]
       },
       {
-        "name": "The Staff of Entropy",
-        "attackBonus": 37,
-        "damage": "3d100+300",
-        "damageType": "Super Weapon + Equal Chaos + Equal Super [Chosen Energy]",
-        "special": [
-          "Always attacks with advantage",
-          "Takes form of any weapon",
-          "Ataque Entrópico (4/LR) - Automatic hit, ignores shields, direct HP damage",
-          "Resistencia Entrópica (6 on 1d6) - Returns damage received"
-        ]
+        "name": "Staff of Janus",
+        "attackBonus": 28,
+        "damage": "+500",
+        "damageType": "Magic Damage",
+        "special": ["Ataques Arcanos (Free) - Un Ataque Mágico Pega Automático y Daña Equal Super Force"]
       }
     ],
     "specialAttacks": [
@@ -146,22 +141,20 @@
       "damage": {
         "base": "10d8 force",
         "enhanced": "+500 (Aliento de Hei Long)",
-        "collarBonus": "+500 (when used as bonus action)",
-        "total": "10d8+500 or 10d8+1000 with collar"
+        "total": "10d8+500"
       },
       "saveDC": {
-        "base": 55,
-        "withCollar": 65
+        "base": 55
       },
       "special": ["Hyper damage", "Auto-recharges", "Intensificar maximizes damage"]
     }
   },
   "spellcasting": {
     "ability": "Intelligence",
-    "spellSaveDC": 57,
-    "spellAttackBonus": 36,
+    "spellSaveDC": 58,
+    "spellAttackBonus": 27,
     "counterspellBonus": 2,
-    "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Staff of Entropy makes ALL enemies have disadvantage on spell saves. Ring of Unicorn: Radiant spells ignore D6 resistances.",
+    "specialNotes": "Evil dragons and Tiamat worshippers have disadvantage on saves. Ring of Unicorn: Radiant spells ignore D6 resistances.",
     "spellSlots": {
       "1st": { "total": 4, "used": 0 },
       "2nd": { "total": 3, "used": 0 },
@@ -178,19 +171,17 @@
       "13th": { "total": 1, "used": 0 }
     },
     "bonuses": {
-      "varaDelEfreet": "+5 DC to all spells, +200 fire damage",
-      "staffOfEntropy": "+10 DC and Magic Attack, spells ignore shields and cause specific wounds",
-      "collarDeRyu": "Heal 100 HP per spell cast",
+      "staffOfJanus": "+20 DC, +500 magic damage, D6 resistances don't drop below 1",
       "magiaGuerrera": "+5 magical RDC when casting with claws"
     }
   },
   "skills": {
     "acrobatics": {
-      "bonus": 5,
+      "bonus": 6,
       "proficient": false
     },
     "animalHandling": {
-      "bonus": 4,
+      "bonus": 5,
       "proficient": false
     },
     "arcana": {
@@ -200,11 +191,11 @@
       "notes": "Automatic success (Codicia de Iscalien III)"
     },
     "athletics": {
-      "bonus": 17,
+      "bonus": 18,
       "proficient": true
     },
     "deception": {
-      "bonus": 6,
+      "bonus": 7,
       "proficient": false
     },
     "history": {
@@ -213,79 +204,72 @@
       "notes": "Automatic success (Codicia de Iscalien III)"
     },
     "insight": {
-      "bonus": 12,
-      "proficient": true
-    },
-    "intimidation": {
-      "bonus": 6,
-      "proficient": false
-    },
-    "investigation": {
-      "bonus": 19,
-      "proficient": true
-    },
-    "medicine": {
-      "bonus": 4,
-      "proficient": false
-    },
-    "nature": {
-      "bonus": 11,
-      "proficient": false
-    },
-    "perception": {
-      "bonus": 12,
-      "proficient": true
-    },
-    "performance": {
-      "bonus": 6,
-      "proficient": false
-    },
-    "persuasion": {
-      "bonus": 14,
-      "proficient": true
-    },
-    "religion": {
-      "bonus": 19,
-      "proficient": true
-    },
-    "sleightOfHand": {
-      "bonus": 5,
-      "proficient": false
-    },
-    "stealth": {
       "bonus": 13,
       "proficient": true
     },
+    "intimidation": {
+      "bonus": 7,
+      "proficient": false
+    },
+    "investigation": {
+      "bonus": 20,
+      "proficient": true
+    },
+    "medicine": {
+      "bonus": 5,
+      "proficient": false
+    },
+    "nature": {
+      "bonus": 12,
+      "proficient": false
+    },
+    "perception": {
+      "bonus": 13,
+      "proficient": true
+    },
+    "performance": {
+      "bonus": 7,
+      "proficient": false
+    },
+    "persuasion": {
+      "bonus": 15,
+      "proficient": true
+    },
+    "religion": {
+      "bonus": 20,
+      "proficient": true
+    },
+    "sleightOfHand": {
+      "bonus": 6,
+      "proficient": false
+    },
+    "stealth": {
+      "bonus": 14,
+      "proficient": true
+    },
     "survival": {
-      "bonus": 4,
+      "bonus": 5,
       "proficient": false
     }
   },
   "equipment": {
     "artifacts": [
       {
-        "name": "Anillo de lo Inevitable",
+        "name": "☆ Anillo de lo Inevitable ☆",
         "rarity": "Legendary Artifact",
+        "description": "Este poderoso anillo maneja los hilos del destino de los seres que están cerca del mismo. Cuanto más acierten en la Profecía, más poderoso se vuelve el Anillo. Se ha visto en todas las eras. Una vez puesto no se puede sacar. Tiene unas runas en humano antiguo: \"extremum tempus\"",
         "effects": [
-          "Resistencia Total (Daño) - Resists all damage types",
-          "Immune to negative temporal effects",
-          "Destino Desfavorable (Free) - Force enemy fails or legendary resistance",
-          "Destino Favorable (Free) - Enemy fails save/attack automatically",
-          "Quicken Spell (Bonus) - Cast memorized spell",
-          "Action Surge (Reaction) - +1 Action",
-          "Super Action Surge (Free - Prof Charges) - +1 Action to whole group",
-          "Viajar en el Tiempo (Arcana 50) - Time travel ritual",
-          "Tiempo Final (Arcana 200) - Go to end of time"
-        ]
-      },
-      {
-        "name": "Vara del Último Efreet",
-        "rarity": "Artifact",
-        "effects": [
-          "Vara de Evocación (Legendaria) - +5 DC and Attack, +200 fire damage",
-          "Fuego Puro (Free - 4/LR) - Double fire damage on target",
-          "Maestro Evocador (Legendaria) - Evocation spells cost no slot, high magic half cost",
-          "Los Tres Deseos Ígneos (3 charges) - Reality-altering fire wishes"
+          "☆ Milagro del Alba (+2000) Vida +1 Punto de Extremus Tempus: Este llega hasta tus aliados pero solo pueden sacar una Free Extra por turno (6 en 1D6). Velocidad de Rayo - Visión Críptica: Tres imágenes de lo predestinado a suceder.",
+          "☆ Experiencia Temporal (+2) Feats Épicos Gratis - Podes Cambiarlo al subir de Nivel.",
+          "☆ Super Resistencia Total - Super Inmune a Efectos Temporales: Paralyze, Detener el Tiempo, Slow, Etc.",
+          "☆ Extremus Tempus (5 y 6 en 1D6) Siempre que uses una Acción Gratis NO gasta acción. Acumulando seis obtenes una Acción Extra en el momento que lo chequeas. Inclusive si es en el turno del otro.",
+          "☆ Modificar Destino (Swift) Un Objetivo que Veas Acierta o Erra un Chequeo D20",
+          "☆ Quicken Spell (Bonus) Castea un conjuro memorizado (Vol)",
+          "☆ Action Surge (Reaction - 1/R) +1 Acción como dicta la habilidad.",
+          "☆ Action Surge Grupal (Free - 1/R) Prof Cargas: +1 Acción Aliados, Primero el portador. -3 gastada",
+          "☆ Salto Temporal (3 Cargas) En los finales de Turno Completo: Podes Saltar 24 horas (Junto Aliados)",
+          "☆ Viajar en el Tiempo (Arcana 50) Ritual - Apaga el anillo. Recarga en 10 días.",
+          "☆ Tiempo Final (Arcana 200) Ritual - Gasta todo el poder del anillo, te lleva al final del tiempo y se Destruye. El poder del mismo queda en ti, pero ya no podes viajar al pasado."
         ]
       },
       {
@@ -308,20 +292,6 @@
         ]
       },
       {
-        "name": "The Staff of Entropy",
-        "rarity": "Artifact",
-        "effects": [
-          "Arma Entrópica (+10) - Takes form of any weapon",
-          "Always attacks with advantage",
-          "Damage: 3d100+300 Super Weapon + Equal Chaos damage",
-          "Ataque Entrópico (4/LR) - Automatic hit, causes specific wounds, ignores shields, damages HP directly",
-          "Resistencia Entrópica (6 on 1d6) - Returns damage received",
-          "Magia Entrópica (+10) - +10 DC and Magic Attack bonus",
-          "Your spell DC always causes disadvantage on saves",
-          "Spell damage causes specific wounds, ignores shields, damages HP directly"
-        ]
-      },
-      {
         "name": "Blue Scale Magic",
         "rarity": "Artifact",
         "effects": [
@@ -332,6 +302,17 @@
           "Inmunidad Mágica (6 en 1D6) - Resiste daño/efectos de conjuros (no armas)",
           "Magia de Guerra (Cósmica) - Ataque gratis al castear, conjuro gratis en multiattack"
         ]
+      },
+      {
+        "name": "Staff of Janus",
+        "rarity": "Artifact",
+        "effects": [
+          "☆ Magic Staff (+20) - +20 AC y DC, +500 Daño Mágico, Tus Resistencias D6 NO bajan de 1",
+          "☆ Ataques Arcanos (Free) - Un Ataque Mágico Pega Automático y Daña Equal Super Force",
+          "☆ Supreme Magic Shield (Reaction - 1/R) - Se Activa un Escudo NA 5000 HP (No se Acumula)",
+          "☆ Tormenta Multielemental (Acción - 3/Día) - Esfera R. 60 Pies: Cura 10.000 HP Repartidos cómo Quieras. Daña 10.000 Hyper Fire +Equal Hyper Lightning +Equal Hyper Cold +Equal Hyper Acid - Rompe 10 AC"
+        ],
+        "description": "Invoca una Tormenta Instantánea de otros mundos creada por este poderoso hechicero. No se puede evocar dos tormentas al mismo tiempo, ni tampoco alterar o contrarrestar la misma. Junto a la Curación se Puede Revificar Free Action."
       }
     ],
     "legendaryItems": [
@@ -344,16 +325,6 @@
           "Advantage on attacks vs Tiamat worshippers & chromatic dragons",
           "Enemies have disadvantage on saves vs your spells/effects",
           "Transform familiar into metallic bird or Young Dragon (1/LR)"
-        ]
-      },
-      {
-        "name": "Collar de Ryu",
-        "rarity": "Unique",
-        "effects": [
-          "+5 DC and AC",
-          "+500 HP",
-          "Heal 100 HP whenever you cast a spell",
-          "Aliento Radiante (Legendaria) - Bonus action breath with +10 DC and +500 damage"
         ]
       },
       {
@@ -377,13 +348,13 @@
         ]
       },
       {
-        "name": "Ring of Abjuration",
+        "name": "☆ Ring of Abjuration ☆",
         "rarity": "Legendary",
         "effects": [
-          "Salva Automáticamente (Swift - 1/R) - Automáticamente salva una TS a elección (1 Round)",
-          "Escudos Protegidos - Tus Escudos de Vida no pueden ser Arrollados aún por ataques que arrollen",
-          "Perteneció a un abjurador muy poderoso, que se perdió en otros planos"
-        ]
+          "☆ (Swift - 1/R) Salva Automáticamente una TS a Elección (1 Round)",
+          "☆ Usado por Casteadores: Tus Escudos de Vida no pueden ser Arrollados aún por ataques que arrollen"
+        ],
+        "description": "Este anillo perteneció a un abjurador muy poderoso, que se perdió en otros planos."
       },
       {
         "name": "The Lucky Lucke",
@@ -405,7 +376,7 @@
         "name": "☆ Time Acelerator (Rayo) ☆",
         "rarity": "Artifact",
         "effects": [
-          "Obtenes una Free Action extra"
+          "☆ Obtenes una Free Action extra (Hambre Auria)"
         ],
         "description": "Artefacto Yugoloth de aceleración molecular."
       },
@@ -413,7 +384,7 @@
         "name": "☆ Talisman of Greed (+1) ☆",
         "rarity": "Artifact",
         "effects": [
-          "Carga a todas las habilidades con cargas que tengas, incluyendo LR"
+          "☆ Carga a todas las habilidades con cargas que tengas, incluyendo LR (Hambre Auria)"
         ],
         "description": "Amuleto de oro macizo con una gema llamada Ojo del Ambicioso, que según la leyenda, trae fortunas y miserias por igual. Esta gema potencia su poder si le das oro."
       },
@@ -421,8 +392,8 @@
         "name": "☆ Ring of the Unicorn (+5) ☆",
         "rarity": "Artifact",
         "effects": [
-          "+5 DC (included in calculations)",
-          "Los conjuros que utilizan Radiant ignoran Resistencias D6"
+          "☆ +5 DC (included in calculations)",
+          "☆ Los conjuros que utilizan Radiant ignoran Resistencias D6"
         ],
         "description": "Hecho con el cuerno del último dios unicornio, quien murió en tercera Guerra del Eclipse."
       }
@@ -431,7 +402,7 @@
   "features": {
     "eatenMagicItems": {
       "description": "Consumed through Hambre de Poder (Legendary ability)",
-      "totalConsumed": 6,
+      "totalConsumed": 8,
       "bonuses": [
         {
           "name": "Proficiency Bonus Enhancement",
@@ -498,25 +469,24 @@
       ],
       "dragonAbilities": [
         {
-          "name": "Corazón de Jin Long/Ryu (IV)",
-          "description": "+2000 HP, dragon longevity, reincarnation after millennium"
+          "name": "☆ Corazón Aurio (IV) ☆",
+          "description": "+4000 HP, LR (x10) Donables, Inmunidad Hyper Fire, Super Lightning, Magical Attacks"
         },
         {
-          "name": "Escamas de Eccen (IV)",
-          "description": "40 AC natural armor, 2000 HP psychic shield"
+          "name": "☆ Escamas Aurias (IV) ☆",
+          "description": "100 AC Natural, Escudo Psiónico NA 2000, Fusión Mágica (x1) Objeto Mágico"
         },
         {
-          "name": "Resistencia de Eccen",
-          "description": "5-6 on 1d6 ignore any damage and gain +1 AC per combat"
+          "name": "☆ Resistencia de Eccen ☆",
+          "description": "(4-6 en 1D6) Ignoras Cualquier Daño (6 No Baja)"
         },
         {
-          "name": "Resistencia Entrópica",
-          "description": "6 on 1d6 - Returns damage received",
-          "source": "Staff of Entropy"
+          "name": "☆ Contingencia (Reaction) ☆",
+          "description": "Libera un conjuro previamente guardado"
         },
         {
-          "name": "☆ Furia de Naxaaris (IV) ☆",
-          "description": "Aura de Furia (R. 60 Pies) Duplica los Ajustes al Daño Fijos (Propios y aliados).\n☆ Sacando el Máximo en Daño: Suma y se retira. Los D100 se tira solo el de las decenas.\n☆ Aberrant Strike (Free - 1/R) Golpea Automático a un Enemigo y daña con Vulnerabilidad\n☆ Ofensiva Irresistible: Atacando o Dañando Reduce 1 Punto las Resistencias D6."
+          "name": "☆ Furia Auria ☆",
+          "description": "(Heroes) Ajustes al Daño Fijos - Máximo en Dado: Suma y se retira.\n☆ Aberrant Strike (Free) - Ofensiva Irresistible: Reduce 1 las Resistencias D6."
         },
         {
           "name": "Codicia de Iscalien (III)",
@@ -545,7 +515,7 @@
       "chronurgyWizard": [
         {
           "name": "Temporal Awareness",
-          "description": "+11 to initiative (Intelligence modifier)"
+          "description": "+12 to initiative (Intelligence modifier)"
         },
         {
           "name": "Chronal Shift",
@@ -634,8 +604,8 @@
   "permanentSpells": [],
   "immunities": {
     "damageTypes": [
-      "Super Fire",
-      "Super Lightning", 
+      "Hyper Fire",
+      "Super Lightning",
       "Magical Attacks",
       "Critical Hits"
     ],
@@ -721,7 +691,7 @@
   },
   "gameState": {
     "hitPoints": {
-      "current": 7170
+      "current": 11140
     },
     "shields": {
       "psychicShield": {
@@ -752,9 +722,10 @@
       "Momentary Stasis": { "used": 0 },
       "Convergent Future": { "used": 0 },
       "Legendary Resistance": { "used": 0 },
-      "Ataque Entrópico": { "used": 0 },
-      "Fuego Puro": { "used": 0 },
-      "Escudo de la Última Esperanza": { "used": 0 }
+      "Escudo de la Última Esperanza": { "used": 0 },
+      "Tormenta Multielemental": { "used": 0 },
+      "Action Surge Grupal": { "used": 3 },
+      "Salto Temporal": { "used": 0 }
     },
     "legendaryResistances": {
       "used": 0
