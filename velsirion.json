@@ -66,12 +66,12 @@
       }
     },
     "hitPoints": {
-      "maximum": 11140,
-      "current": 11140,
+      "maximum": 12140,
+      "current": 12140,
       "breakdown": {
         "baseHP": 1540,
         "baseHPCalculation": "Levels 1-20: 20×(12+10)=440, Levels 21-25: 5×(12+10)×10=1100",
-        "corazonAurio": 4000,
+        "corazonAurio": 5000,
         "blueScaleMagic": 2000,
         "anilloDeLoInevitable": 2000,
         "hambreDePoder": "8 artifacts × 200 = 1600 HP"
@@ -470,7 +470,7 @@
       "dragonAbilities": [
         {
           "name": "☆ Corazón Aurio (IV) ☆",
-          "description": "+4000 HP, LR (x10) Donables, Inmunidad Hyper Fire, Super Lightning, Magical Attacks"
+          "description": "+5000 HP, LR (x10) Donables, Inmunidad Hyper Fire, Super Lightning, Magical Attacks"
         },
         {
           "name": "☆ Escamas Aurias (IV) ☆",
@@ -691,7 +691,7 @@
   },
   "gameState": {
     "hitPoints": {
-      "current": 11140
+      "current": 12140
     },
     "shields": {
       "psychicShield": {
